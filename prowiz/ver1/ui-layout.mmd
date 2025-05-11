@@ -1,0 +1,36 @@
+flowchart TB
+
+subgraph UI_Layer
+
+    A1[Login & Auth Page]
+    A2[Dashboard View - Project & Status Overview]
+    A3[Document Upload & Version Panel]
+    A4[AI Agent Interface - Trigger & Monitor Agents]
+    A5[Task Manager - Approvals & Assignments]
+    A6[Review & Preview Panel - Accept/Reject]
+    A7[Change History Viewer - Semantic Diffs]
+    A8[Search and Filter]
+    A9[Analytics & KPI Dashboards]
+
+end
+
+%% External Linkage
+A1 --> B[API Layer - auth-api]
+A3 --> C[API Layer - document-api]
+A4 --> D[API Layer - agent-api]
+A5 --> E[API Layer - erp-api]
+A6 --> E
+A7 --> F[API Layer - summary-api]
+A9 --> G[Observability Layer /Grafana / metrics]
+A2 --> C[API Layer - document-api]
+A2 --> E[API Layer - erp-api]
+A8 --> C
+
+%% Styling
+classDef block fill:#e3f2fd,stroke:#2196f3,color:#000
+classDef api fill:#fff9c4,stroke:#fdd835,color:#000
+classDef obs fill:#c8e6c9,stroke:#388e3c,color:#000
+
+class A1,A2,A3,A4,A5,A6,A7,A8,A9 block
+class B,C,D,E,F api
+class G obs

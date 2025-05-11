@@ -1,0 +1,18 @@
+flowchart TB
+
+A[AI/ETL Services] --> B[Storage Layer API]
+
+subgraph Storage_Layer
+    B --> S1[Object Store - MinIO or S3]
+    B --> S2[Metadata DB - MongoDB or Postgres]
+    B --> S3[Vector Store - FAISS or Qdrant]
+    B --> S4[Audit DB - Timescale or SQL]
+    B --> S5[Log Store - Loki or ELK]
+end
+
+%% Styling
+classDef box fill:#e3f2fd,stroke:#2196f3,color:#000
+classDef header fill:#ede7f6,stroke:#7b1fa2,color:#000
+
+class A,B,S1,S2,S3,S4,S5 box
+

@@ -1,0 +1,131 @@
+\documentclass{beamer}
+\usepackage{graphicx}
+\usetheme{Madrid}
+
+% Embed Dhvani AI logo in footer
+\logo{\includegraphics[height=0.8cm]{pics/logo.png}}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+%    \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{author in head/foot}%
+%      \hfill \usebeamertemplate*{logo} \hspace{0.5cm}%
+%    \end{beamercolorbox}%
+  }%
+}
+
+% Presentation metadata
+\title[Knife Knowledge Proposal]{Capturing \& Quantifying Tacit Knife Grinding \& Sharpening Knowledge}
+\author[Dhvani AI]{Dhvani\,AI Research Team}
+\institute[Fukabe Kaji]{In collaboration with Fukabe Kaji Knife Company}
+\date{April 2025}
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Outline
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+% Section: Objectives
+\section{Objectives}
+\begin{frame}{Objectives}
+  \begin{itemize}
+    \item Capture tacit grinding \& sharpening expertise from master craftsmen
+    \item Quantify process parameters and outcome metrics
+    \item Prototype AI-driven automation and closed-loop control
+    \item Define industry-wide training and certification standards
+  \end{itemize}
+\end{frame}
+
+% Section: Methodology
+\section{Methodology}
+\begin{frame}{Methodology Overview}
+  \begin{enumerate}
+    \item \textbf{Multimodal Sensing}: Video, motion capture, audio, force sensors
+    \item \textbf{Data Annotation}: Expert labeling of quality outcomes
+    \item \textbf{Modeling}: Process-to-quality mapping \& anomaly detection
+    \item \textbf{Automation}: Robotic grinding assist with adaptive control
+    \item \textbf{Training System}: Sensor-based feedback for trainees
+  \end{enumerate}
+\end{frame}
+
+% Section: Sensor Setup
+\section{Sensor Setup}
+\begin{frame}{Sensor Configuration}
+  \begin{itemize}
+    \item High-speed cameras for stroke analysis (FPS $>300$)
+    \item Optical/inertial trackers on tool handle
+    \item Load cells for force/torque measurement
+    \item Directional microphones for acoustic signature
+  \end{itemize}
+\end{frame}
+
+% Section: Data Collection & Annotation
+\section{Data Collection}
+\begin{frame}{Data Collection \& Annotation}
+  \begin{itemize}
+    \item Record $\sim$30 knives per craftsman with diverse geometries
+    \item Annotate key decision points and quality labels (good/bad)
+    \item Measure surface finish (profilometry) and edge sharpness tests
+  \end{itemize}
+\end{frame}
+
+% Section: Modeling & Automation
+\section{Modeling \& Automation}
+\begin{frame}{Modeling \& Automation}
+  \begin{itemize}
+    \item \textbf{Process Modeling}: Map motion/force/audio to quality outcomes
+    \item \textbf{Vision Inspection}: CNN classification of finish defects
+    \item \textbf{Closed-loop Control}: AI agent adjusts parameters in real time
+    \item \textbf{Prototype}: Robotic arm executes expert-like strokes
+  \end{itemize}
+\end{frame}
+
+% Section: Training & Certification
+\section{Training \& Certification}
+\begin{frame}{Training \& Certification}
+  \begin{itemize}
+    \item Sensor-assisted training modules with live feedback
+    \item Standardized test pieces and automated evaluation
+    \item Digital badge certification based on AI-validated metrics
+  \end{itemize}
+\end{frame}
+
+% Section: Project Plan & Timeline
+\section{Plan \& Timeline}
+\begin{frame}{Project Plan \& Timeline}
+  \begin{tabular}{l l l}
+    \textbf{Phase} & \textbf{Deliverables} \\
+    Pilot  & Data rig, pilot dataset \\
+    POC  & Models, prototype grinder \\
+    Training  & Curriculum, software platform \\
+  \end{tabular}
+\end{frame}
+
+% Section: Budget Estimate
+%\section{Budget Estimate}
+%\begin{frame}{Budget Estimate}
+%  \begin{tabular}{l r}
+%    Pilot Setup & \$50\,000 \\
+%    POC Development & \$150\,000 \\
+%    Training System & \$50\,000 \\
+%    \hline
+%    \textbf{Total} & \textbf{\$250\,000}
+%  \end{tabular}
+%\end{frame}
+
+%% Q&A
+%\begin{frame}{Questions \& Next Steps}
+%  \begin{itemize}
+%    \item Feedback on methodology and scope
+%    \item Resource allocation and project kickoff
+%    \item Timeline confirmation
+%%  \end{itemize}
+%\end{frame}
+
+\end{document}

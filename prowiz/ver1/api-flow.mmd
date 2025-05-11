@@ -1,0 +1,39 @@
+flowchart TD
+
+%% ENTRY SOURCES
+A1[User via Browser or Web UI] --> B1[Ingress Controller - routes external requests]
+A2[AI Agent or Internal Service in Cluster] --> B2[Direct Access to API Gateway Service]
+
+%% API GATEWAY
+B1 --> C[API Gateway - routing, auth, rate limiting]
+B2 --> C
+
+%% API ROUTING
+C --> D1[auth-api - handles login, token validation]
+C --> D2[document-api - versioning, metadata, upload]
+C --> D3[agent-api - trigger AI agents]
+C --> D4[etl-api - ETL control and status]
+C --> D5[erp-api - tasks, BoQs, approvals]
+C --> D6[compliance-api - validation query]
+C --> D7[summary-api - fetch AI review summaries]
+
+%% SERVICE CALLS
+D1 --> E1[Auth Service or Vault]
+D2 --> E2[Document Service and MinIO]
+D3 --> E3[AI Agent Dispatcher]
+D4 --> E4[ETL Orchestrator]
+D5 --> E5[ERP Service Core]
+D6 --> E6[Compliance Engine]
+D7 --> E7[Summary Generator or LLM Engine]
+
+%% STYLING
+classDef entry fill:#ede7f6,stroke:#7b1fa2,color:#000
+classDef gateway fill:#c5cae9,stroke:#3f51b5,color:#000
+classDef api fill:#e3f2fd,stroke:#2196f3,color:#000
+classDef backend fill:#c8e6c9,stroke:#388e3c,color:#000
+
+class A1,A2 entry
+class B1,B2 gateway
+class C gateway
+class D1,D2,D3,D4,D5,D6,D7 api
+class E1,E2,E3,E4,E5,E6,E7 backend

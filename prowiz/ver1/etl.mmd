@@ -1,0 +1,89 @@
+flowchart TD
+
+%% INPUT SOURCES
+subgraph Data_Sources
+    email[Customer Emails]
+    docs[Customer Docs: Specs, Tenders]
+    design[Modeling Software: HySIS, AutoCAD, E3D]
+    userUpload[Human Inputs / UI Upload]
+end
+
+%% AI AGENT LAYER FOR UNSTRUCTURED SOURCES
+subgraph AI_Agent_Extraction
+    agentEmail[Email Parsing Agent]
+    agentDoc[Document Extractor Agent]
+    agentOCR[OCR + Table Parser Agent]
+    classifier[Document Type Classifier Agent]
+    projectLink[Auto-Map to ERP Project / Task]
+end
+
+%% FILE INGESTION
+subgraph File_Ingestion
+    watcher[File Watcher + ERP Trigger]
+    hash[Metadata Extractor + Checksum]
+    versioner[Version Logger - MinIO + Metadata DB]
+end
+
+%% CONTENT EXTRACTION
+subgraph Content_Parsing_and_Normalization
+    structured[Structured Parser: CSV, XML → Normalized]
+    binary[Binary Parser: .bkp, .dwg, .vsd → Normalized]
+end
+
+%% OUTPUT / NOTIFICATION
+subgraph Downstream_Triggers
+    notify[Notify Review System]
+    alert[Trigger ERP Approval]
+    preview[Generate Preview / Diff Summary]
+end
+
+%% RETRY LOGIC
+retryQueue[Retry / Error Queue]
+
+%% DATA FLOW CONNECTIONS
+design --> watcher
+userUpload --> watcher
+
+email --> agentEmail --> classifier
+docs --> agentDoc --> classifier
+docs --> agentOCR --> classifier
+classifier --> projectLink
+projectLink --> watcher
+
+watcher --> hash
+hash --> versioner
+
+versioner --> structured
+versioner --> binary
+
+structured --> preview
+binary --> preview
+
+structured --> notify
+binary --> notify
+classifier --> alert
+preview --> notify
+preview --> alert
+
+%% RETRY PATHS
+structured --> retryQueue
+binary --> retryQueue
+agentEmail --> retryQueue
+agentDoc --> retryQueue
+agentOCR --> retryQueue
+
+%% CLASS STYLES
+classDef input fill:#e3f2fd,stroke:#2196f3,color:#000
+classDef ai fill:#fff3e0,stroke:#fb8c00,color:#000
+classDef ingest fill:#e8f5e9,stroke:#43a047,color:#000
+classDef parse fill:#f3e5f5,stroke:#8e24aa,color:#000
+classDef output fill:#fffde7,stroke:#fdd835,color:#000
+classDef retry fill:#ffcdd2,stroke:#e53935,color:#000
+
+%% CLASS ASSIGNMENTS
+class email,docs,design,userUpload input
+class agentEmail,agentDoc,agentOCR,classifier,projectLink ai
+class watcher,hash,versioner ingest
+class structured,binary parse
+class notify,alert,preview output
+class retryQueue retry

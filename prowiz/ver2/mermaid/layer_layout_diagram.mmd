@@ -1,0 +1,56 @@
+flowchart TB
+
+%% Top layer - user entry
+User[User / UI Layer]:::ui <--> API[API Layer - Ingress + Gateway + Routing]:::api
+
+%% Core logic controller
+API <--> ERP[ERP Task Engine Layer]:::erp
+
+%% ERP orchestrates the functional services
+ERP <--> AI[AI Agent Layer]:::ai
+ERP --> ETL[ETL & Digitisation Layer]:::etl
+ERP <--> DOC[File Management Layer]:::doc
+
+%% Document System Layer
+AI <--> DOC
+%% ETL Layers
+ETL --> DOC[File Management Layer]:::doc
+ETL --> AI[AI Agent Layer]:::ai
+
+%% Shared lower layers
+ETL --> STG[Storage Layer]:::storage
+AI <--> STG
+DOC <--> STG
+ERP <--> STG
+
+ETL --> OBS[Observability Layer]:::obs
+AI --> OBS
+DOC --> OBS
+ERP --> OBS
+
+%% Foundational Infrastructure
+STG --> INFRA[Infrastructure Layer - K8s, Vault, Prometheus, MinIO, DBs]:::infra
+OBS --> INFRA
+API --> INFRA
+
+%% Styling
+classDef ui fill:#ede7f6,stroke:#7b1fa2,color:#000
+classDef api fill:#e3f2fd,stroke:#2196f3,color:#000
+classDef erp fill:#ffe0b2,stroke:#ef6c00,color:#000
+classDef ai fill:#fff3e0,stroke:#fb8c00,color:#000
+classDef etl fill:#c8e6c9,stroke:#388e3c,color:#000
+classDef doc fill:#f0f4c3,stroke:#afb42b,color:#000
+classDef storage fill:#d1c4e9,stroke:#5e35b1,color:#000
+classDef obs fill:#b2ebf2,stroke:#0097a7,color:#000
+classDef infra fill:#f5f5f5,stroke:#424242,color:#000
+
+class User ui
+class API api
+class ERP erp
+class AI ai
+class ETL etl
+class DOC doc
+class STG storage
+class OBS obs
+class INFRA infra
+

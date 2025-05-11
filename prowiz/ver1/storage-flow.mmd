@@ -1,0 +1,33 @@
+flowchart TD
+Title[**Storage Workflow**]:::title
+
+
+
+%% Ingestion Phase
+Title --> A[Start - File or Data arrives from ETL/AI Layer] --> B[Compute Checksum and Extract Metadata]
+
+%% Storage Routing
+B --> C1[Store Raw File to MinIO]
+B --> C2[Store Metadata to MongoDB/Postgres]
+B --> C3[Generate Embedding for Vectors]
+
+%% Vector Path
+C3 --> D1[Store in Vector DB for Similarity Search]
+
+%% Logging Path
+B --> E1[Log Hash and Upload Event to Audit DB]
+E1 --> E2[Log Agent Info and Outcome to Log Store]
+
+%% Output
+C1 --> F[File Ready for Access / Search / Review]
+C2 --> F
+D1 --> F
+E2 --> F
+
+%% Styling
+classDef title fill:none,stroke:none,color:black,font-weight:bold;
+class Title title
+classDef block fill:#c8e6c9,stroke:#388e3c,color:#000
+classDef step fill:#fff9c4,stroke:#fdd835,color:#000
+
+class A,B,C1,C2,C3,D1,E1,E2,F step

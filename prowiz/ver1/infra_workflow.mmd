@@ -1,0 +1,27 @@
+flowchart TD
+    A[Project Created in ERP] --> B[Infra Layer Trigger Received]
+
+    B --> C[Create Kubernetes Namespace:<br>project-plantA]
+    C --> D[Provision DB Instance:<br>Oracle / SQL / Dabacon]
+    D --> E[Inject Credentials:<br>using Vault / Sealed Secrets]
+    E --> F[Mount Shared Object Storage:<br>for Drawings/Simulations]
+    F --> G[Register Project Config:<br>for ETL & AI Agents]
+    G --> H[Notify Services:<br>ETL / Agent / UI Layer Ready]
+
+    %% Parallel branch for observability
+    C --> O1[Create Prometheus Rules:<br>Project-Specific Alerts]
+    O1 --> O2[Configure Loki / ELK Logging:<br>Scoped to Namespace]
+    O2 --> O3[Register Observability Hooks:<br>Dashboards + Notifications]
+
+    style A fill:#f9f,stroke:#333,stroke-width:1px
+    style B fill:#bbf,stroke:#333,stroke-width:1px
+    style C fill:#fff,stroke:#333,stroke-width:1px
+    style D fill:#fff,stroke:#333,stroke-width:1px
+    style E fill:#fff,stroke:#333,stroke-width:1px
+    style F fill:#fff,stroke:#333,stroke-width:1px
+    style G fill:#dfd,stroke:#333,stroke-width:1px
+    style H fill:#aff,stroke:#333,stroke-width:1px
+    style O1 fill:#ffe599,stroke:#333,stroke-width:1px
+    style O2 fill:#ffe599,stroke:#333,stroke-width:1px
+    style O3 fill:#b6d7a8,stroke:#333,stroke-width:1px
+
