@@ -1,0 +1,101 @@
+\section{System Architecture Layers}
+% Adjusted the scale of the image to 0.5
+  % System Architecture - Part 1
+\begin{frame}
+  \frametitle{System Architecture - Part 1}
+ \begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3cm}|p{7cm}|}
+\hline
+\textbf{Layer} & \textbf{Key Functionalities} \\
+\hline
+
+\textbf{UI Layer} & 
+Provides the user interface for document upload, agent triggering, task management, version review, change history, and analytics dashboards. Interfaces with API layer for all interactions. \\
+\hline
+
+\textbf{API Layer} & 
+Acts as the central access point via ingress and API gateway. Handles routing, authentication, rate limiting, versioned API groups (auth, agent, document, ETL, ERP, summary, compliance). \\
+\hline
+
+\end{tabular}
+\caption{Functional Overview of Core System Layers (Part 1)}
+\end{table}
+\end{frame}
+
+% System Architecture - Part 2
+\begin{frame}
+  \frametitle{System Architecture - Part 2}
+ \begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3cm}|p{7cm}|}
+\hline
+\textbf{Layer} & \textbf{Key Functionalities} \\
+\hline
+
+\textbf{ERP Task Engine Layer} & 
+Manages projects, tasks, workflows, approvals, assignments. Acts as the orchestrator connecting ETL, AI, and document systems with user workflows and audit logs. \\
+\hline
+
+\textbf{AI Agent Layer} & 
+Executes intelligent agents for document generation, compliance review, email understanding, P\&ID parsing, semantic diffing, enquiry processing, and task summaries. \\
+\hline
+
+\end{tabular}
+\caption{Functional Overview of Core System Layers (Part 2)}
+\end{table}
+\end{frame}
+
+% System Architecture - Part 3
+\begin{frame}
+  \frametitle{System Architecture - Part 3}
+ \begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3cm}|p{7cm}|}
+\hline
+\textbf{Layer} & \textbf{Key Functionalities} \\
+\hline
+
+\textbf{ETL \& Digitisation Layer} & 
+Ingests and watches file systems and document uploads. Computes checksums, extracts metadata, invokes AI-based content extraction, and stores structured outputs. \\
+\hline
+
+\textbf{Document System Layer} & 
+Manages file uploads, versioning, semantic diffing, review flows, and links documents to tasks. Interfaces with storage and audit layers. \\
+\hline
+
+\end{tabular}
+\caption{Functional Overview of Core System Layers (Part 3)}
+\end{table}
+\end{frame}
+
+% System Architecture - Part 4
+\begin{frame}
+  \frametitle{System Architecture - Part 4}
+ \begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3cm}|p{7cm}|}
+\hline
+\textbf{Layer} & \textbf{Key Functionalities} \\
+\hline
+
+\textbf{Storage Layer} & 
+Handles object storage (MinIO/S3), metadata (MongoDB/Postgres), embeddings (vector DB), audit trails (TimescaleDB), and raw file lifecycle APIs. \\
+\hline
+
+\textbf{Observability Layer} & 
+Collects metrics (Prometheus), logs (Loki/ELK), distributed traces (Jaeger), alerting (Alertmanager), and agent audit logs. Visualized via Grafana. \\
+\hline
+
+\textbf{Infrastructure Layer} & 
+Provides the platform base using Kubernetes, Vault, Prometheus, MinIO, SQL/NoSQL DBs, service mesh, ingress, and network/security policies. \\
+\hline
+
+\end{tabular}
+\caption{Functional Overview of Core System Layers (Part 4)}
+\end{table}
+\end{frame}

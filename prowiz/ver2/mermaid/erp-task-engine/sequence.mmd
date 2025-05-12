@@ -1,0 +1,28 @@
+sequenceDiagram
+    participant ETL as ETL Layer
+    participant ERP as ERP Task Engine
+    participant AGENT as AI Agent Layer
+    participant ENG as Engineer
+    participant REV as Reviewer
+    participant FILE as File Management
+    participant OBS as Observability Layer
+
+    ETL->>ERP: Create new task with extracted file
+    ERP->>ENG: Notify engineer about new task
+    ENG->>ERP: Complete task and submit status
+
+    ERP->>FILE: Notify file manager for auto-upload
+    FILE->>ERP: Upload design output and link to task
+    ERP->>AGENT: Trigger compliance or simulation agent
+    AGENT->>ERP: Post validation results
+    ERP->>REV: Notify reviewer with AI result
+    REV->>ERP: Approve or request revision
+    ERP->>OBS: Log review result and time taken
+
+    Note over ERP,FILE: Later...
+
+    FILE->>ERP: Spec revision uploaded
+    ERP->>ERP: Trigger revision alert
+    ERP->>ENG: Notify engineer to revise
+    ERP->>AGENT: Reprocess revised file
+    ERP->>OBS: Log revision update

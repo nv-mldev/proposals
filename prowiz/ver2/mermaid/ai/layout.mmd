@@ -1,0 +1,60 @@
+flowchart TB
+
+subgraph AI_Agent_Layer
+
+    CORE[Shared LLM Runtime - GPT Ollama Claude]
+    VECTOR[Vector Store - FAISS Qdrant]
+    API[Agent API Interface - Trigger Endpoint]
+
+    A1[Email Agent - task instruction parser]
+    A2[Doc Extraction Agent - tables forms ocr]
+    A3[Document Generation Agent - datasheet boq]
+    A4[Compliance Agent - check rules checklist completeness]
+    A5[Diagram GPT - diagram understanding agent]
+    A6[ERP Action Agent - natural language to task]
+    A7[Project Query Agent - real-time task and status]
+    A8[Enquiry Agent - rfq parser and evaluator]
+    A9[AI Review Summary Agent - doc summary for reviewer]
+    A10[Semantic Diff Agent - compare versions]
+    A11[Iteration Summary Agent - track changes over time]
+    A12[Change Justification Agent - explain rejection or revision]
+
+end
+
+API --> A1
+API --> A2
+API --> A3
+API --> A4
+API --> A5
+API --> A6
+API --> A7
+API --> A8
+API --> A9
+API --> A10
+API --> A11
+API --> A12
+
+A1 --> CORE
+A2 --> CORE
+A3 --> CORE
+A4 --> CORE
+A5 --> CORE
+A6 --> CORE
+A7 --> CORE
+A8 --> CORE
+A9 --> CORE
+A10 --> CORE
+A11 --> CORE
+A12 --> CORE
+
+A2 --> VECTOR
+A3 --> VECTOR
+A7 --> VECTOR
+A9 --> VECTOR
+A11 --> VECTOR
+
+classDef agent fill:#fff3e0,stroke:#fb8c00,color:#000
+classDef core fill:#e3f2fd,stroke:#2196f3,color:#000
+
+class A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12 agent
+class CORE,VECTOR,API core

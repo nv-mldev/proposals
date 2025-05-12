@@ -1,0 +1,33 @@
+flowchart TB
+
+subgraph ERP_Task_Engine_Layer
+
+    A1[Task Manager - create and update]
+    A2[Workflow Controller - task states and transitions]
+    A3[Review Interface - approve reject respond]
+    A4[Project Planner - WBS Gantt timeline]
+    A5[Task Tracker - status progress time sheets]
+    A6[Notification System - alerts reminders escalations]
+    A7[Revision Alert Engine - spec change trigger]
+    A8[Project Query Agent - updates status insights]
+    A9[Analytics Engine - task time SLA compliance]
+    A10[File Browser - task linked documents]
+    A11[ERP API Interface - integrated with API Gateway]
+    A12[Task Database - Postgres or Mongo]
+
+end
+
+A1 --> A12
+A2 --> A12
+A3 --> A12
+A4 --> A12
+A5 --> A12
+A6 --> A12
+A7 --> A12
+A8 --> A12
+A9 --> A12
+A10 --> A12
+A11 --> A12
+
+classDef erp fill:#ffe0b2,stroke:#ef6c00,color:#000
+class A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12 erp

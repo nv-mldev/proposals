@@ -1,0 +1,95 @@
+\section{ETL and Digitisation Layer}
+
+% Dividing the first table into multiple frames with 5 rows each
+\begin{frame}
+    \frametitle{ETL and Digitisation Layer - Functional Responsibilities (Part 1)}
+    \begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3cm}|p{7cm}|}
+\hline
+\textbf{Component} & \textbf{Functional Responsibility} \\
+\hline
+File Watcher & Detect new files or folder changes from UI or simulation output \\
+\hline
+Checksum Engine & Compute hash and compare against existing versions to avoid duplication \\
+\hline
+Metadata Extractor & Extract filename, type, timestamp, author, tags \\
+\hline
+Content Extractor & Run format-based parsers or OCR tools to extract document content \\
+\hline
+Simulation Connector & Pull data from engineering software (e.g., AVEVA, HYSYS) via COM or CLI \\
+\hline
+\end{tabular}
+\caption{ETL and Digitisation Layer - Functional Responsibilities (Part 1)}
+\end{table}
+\end{frame}
+
+\begin{frame}
+    \frametitle{ETL and Digitisation Layer - Functional Responsibilities (Part 2)}
+    \begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3cm}|p{7cm}|}
+\hline
+\textbf{Component} & \textbf{Functional Responsibility} \\
+\hline
+Agent Trigger Manager & Decide which agents to trigger and when (e.g., document parser, compliance) \\
+\hline
+Error and Retry Handler & Reattempt failed extractions or flag for manual review \\
+\hline
+ERP Task Notifier & Create new ERP tasks or update existing tasks based on file content \\
+\hline
+Storage Uploader & Push raw and structured outputs to File Management Layer \\
+\hline
+\end{tabular}
+\caption{ETL and Digitisation Layer - Functional Responsibilities (Part 2)}
+\end{table}
+\end{frame}
+
+% Dividing the second table into multiple frames with 5 rows each
+\begin{frame}
+    \frametitle{ETL and Digitisation Layer - Technical Responsibilities (Part 1)}
+    \begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3cm}|p{7cm}|}
+\hline
+\textbf{Component} & \textbf{Technical Responsibility} \\
+\hline
+File Watcher & Uses S3 notifications, Linux inotify, or Windows filesystem events \\
+\hline
+Checksum Engine & Uses SHA-256 or similar to verify content changes \\
+\hline
+Metadata Extractor & YAML/JSON/regex parsers and custom rules per file type \\
+\hline
+Content Extractor & Integrates Tesseract, Donut, PDF parsers, or custom XML/CSV loaders \\
+\hline
+Simulation Connector & Python COM interface via `pywin32`, AutoCAD script runner, HYSYS export tool \\
+\hline
+\end{tabular}
+\caption{ETL and Digitisation Layer - Technical Responsibilities (Part 1)}
+\end{table}
+\end{frame}
+
+\begin{frame}
+    \frametitle{ETL and Digitisation Layer - Technical Responsibilities (Part 2)}
+    \begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3cm}|p{7cm}|}
+\hline
+\textbf{Component} & \textbf{Technical Responsibility} \\
+\hline
+Agent Trigger Manager & Sends API calls or events to AI agent dispatcher per document class \\
+\hline
+Error and Retry Handler & Uses retry queue (e.g., RabbitMQ, Redis) with backoff and alerting \\
+\hline
+ERP Task Notifier & RESTful API call to ERP Task Engine with task context payload \\
+\hline
+Storage Uploader & Calls File Management API to store versioned files and metadata \\
+\hline
+\end{tabular}
+\caption{ETL and Digitisation Layer - Technical Responsibilities (Part 2)}
+\end{table}
+\end{frame}

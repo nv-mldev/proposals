@@ -1,0 +1,27 @@
+flowchart TB
+
+subgraph File_Management_Layer
+
+    A1[File API - upload download version check]
+    A2[Version Controller - hash tracking]
+    A3[Revision Detector - detect content change]
+    A4[Semantic Diff Engine - text diff and annotations]
+    A5[Metadata Store - file info task links]
+    A6[Storage Connector - MinIO or S3]
+    A7[Task Linker - map versions to ERP]
+    A8[Design File Handler - CAD and simulation versioning]
+
+end
+
+A8 --> A2
+A8 --> A5
+A1 --> A6
+A1 --> A2
+A2 --> A3
+A3 --> A4
+A2 --> A7
+A4 --> A7
+A5 --> A6
+
+classDef file fill:#f0f4c3,stroke:#afb42b,color:#000
+class A1,A2,A3,A4,A5,A6,A7,A8 file

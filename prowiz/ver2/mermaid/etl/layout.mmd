@@ -1,0 +1,30 @@
+flowchart TB
+
+subgraph ETL_and_Digitisation_Layer
+
+    A1[File Watcher - detect new files or folders]
+    A2[Checksum Engine - compute and compare hash]
+    A3[Metadata Extractor - parse file name and attributes]
+    A4[Content Extractor - use OCR or format parser]
+    A5[Simulation Connector - COM or CLI interface for Windows tools]
+    A6[Agent Trigger Manager - initiate downstream agents]
+    A7[Error and Retry Handler - failed file reprocessing]
+    A8[ERP Task Notifier - link to ERP task or create task]
+    A9[Storage Uploader - push file to File Management Layer]
+
+end
+
+A1 --> A2
+A2 --> A3
+A3 --> A4
+A4 --> A6
+A4 --> A9
+A2 --> A5
+A5 --> A4
+A6 --> A8
+A6 --> A9
+A7 --> A1
+A6 --> A7
+
+classDef etl fill:#c8e6c9,stroke:#388e3c,color:#000
+class A1,A2,A3,A4,A5,A6,A7,A8,A9 etl

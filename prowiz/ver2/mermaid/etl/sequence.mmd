@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant WATCH as File Watcher
+    participant ETL as ETL Core
+    participant SIM as Simulation Connector
+    participant FILE as File Management Layer
+    participant ERP as ERP Task Engine
+    participant AGENT as AI Agent Layer
+    participant OBS as Observability Layer
+
+    WATCH->>ETL: New file or update detected
+    ETL->>ETL: Compute checksum and compare with last version
+    ETL->>SIM: (if needed) Pull additional data via COM
+    ETL->>ETL: Extract metadata and classify
+    ETL->>FILE: Upload and version file
+    ETL->>ERP: Create or update task with extracted info
+    ETL->>AGENT: Trigger document agent (e.g., DiagramGPT)
+    ETL->>OBS: Log file ingestion, hash, status

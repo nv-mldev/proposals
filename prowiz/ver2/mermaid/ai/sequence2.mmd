@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant ERP as ERP Task Engine
+    participant AGENT as Compliance Agent
+    participant FILE as File Management
+    participant VECTOR as Vector Store - Code Library
+    participant LLM as LLM Runtime
+    participant OBS as Observability
+
+    ERP->>AGENT: Trigger compliance check
+    AGENT->>FILE: Fetch document content
+    AGENT->>VECTOR: Retrieve matching code clauses or standards
+    AGENT->>LLM: Run prompt with doc + clause context
+    LLM-->>AGENT: Return pass/fail + explanation
+    AGENT->>ERP: Attach result to task
+    AGENT->>OBS: Log validation result
