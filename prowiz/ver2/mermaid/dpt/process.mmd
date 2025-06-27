@@ -1,0 +1,33 @@
+flowchart LR
+  subgraph Process_Department["Process Department"]
+    PD1["Ingest Client Inputs: Capacity, Composition, P/T/V, Plot Area, Facility & Env Data, Specs & Codes"]
+    PD2["Build & Run Simulation: HYSYS model setup & execute"]
+    PD3["Generate Deliverables: Export HMBT & PFD"]
+    PD4["Process Calculations: Vessel, Line, Relief Valve, Flare, Pump NPSH, Blowdown, Deluge"]
+    PD5["Generate P&ID: Aveva/CAD with PFD & calculations"]
+    PD6["Compliance Check: Compare HMBT, PFD & P&ID vs spec"]
+    PD7["Review & Revision: Approve or trigger revision"]
+  end
+
+  subgraph ERP_Automation["ERP Automation"]
+    EA1["File Watcher & Extraction Agents"]
+    EA2["Task Manager & HYSYS Connector"]
+    EA3["Versioning Engine & Metadata Extractor"]
+    EA4["Automated Calculation Engine: API/NORSOK/GPSA modules"]
+    EA5["Diagram Parsing/API connectivity & Integration"]
+    EA6["Compliance Agent"]
+    EA7["Revision Alert Engine & Review Interface"]
+  end
+
+  PD1 --> EA1 --> PD2
+  PD2 --> EA2 --> PD3
+  PD3 --> EA3 --> PD4
+  PD4 --> EA4 --> PD5
+  PD5 --> EA5 --> PD6
+  PD6 --> EA6 --> PD7
+  PD7 --> EA7 --> EA2
+
+  classDef dept fill:#fce4ec,stroke:#d81b60,color:#000
+  classDef erp  fill:#ffe0b2,stroke:#ef6c00,color:#000
+  class PD1,PD2,PD3,PD4,PD5,PD6,PD7 dept
+  class EA1,EA2,EA3,EA4,EA5,EA6,EA7 erp

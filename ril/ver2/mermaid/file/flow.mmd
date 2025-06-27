@@ -1,0 +1,54 @@
+flowchart LR
+  subgraph File_Management_Flow["File Management Flow"]
+    direction LR
+
+    %% Start & End
+    ST([File Upload or Event]):::start
+    ED([Process Complete]):::endNode
+
+    %% Metadata Extraction & Versioning
+    FME[File-Level Metadata Extractor<br/>Checksum & Type]:::component
+    VM[Versioning Engine<br/>New vs Duplicate]:::component
+
+    %% Storage & Content Metadata
+    OBJ[(Object Store)]:::database
+    CLME[Content-Level Metadata Extractor<br/>Text, Tags, Tables]:::component
+    MDB[(Metadata DB)]:::database
+
+    %% Indexing & Access
+    SI[Search Indexer]:::component
+    API[Search API / File Browser]:::component
+    ACL[ACL & Permissions Check]:::component
+
+    %% Lifecycle & Auditing
+    LM[Lifecycle Manager]:::component
+    AU[Audit Log Writer]:::obs
+
+    %% Main flow
+    ST --> FME --> VM --> OBJ
+    VM --> CLME --> MDB
+    MDB --> SI --> API
+    API --> OBJ
+    API --> MDB
+    API --> ACL --> API
+    MDB --> LM --> OBJ
+    API --> ED
+    LM --> ED
+
+    %% Audit logging (dotted)
+    FME -.-> AU
+    VM  -.-> AU
+    CLME -.-> AU
+    SI  -.-> AU
+    API -.-> AU
+    ACL -.-> AU
+    LM  -.-> AU
+    AU  --> MDB
+  end
+
+  %% Styling
+  classDef component  fill:#f0f4c3,stroke:#afb42b,color:#000
+  classDef database   fill:#d1c4e9,stroke:#5e35b1,stroke-dasharray:5 5,color:#000
+  classDef start      fill:#e0f7fa,stroke:#006064,color:#000
+  classDef endNode    fill:#e0f7fa,stroke:#006064,color:#000
+  classDef obs        fill:#b2ebf2,stroke:#0097a7,stroke-dasharray:5 5,color:#000

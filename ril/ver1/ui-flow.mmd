@@ -1,0 +1,27 @@
+flowchart TD
+
+A[User Logs In] --> B[API Call to auth-api]
+B --> C[Access Granted - Load Dashboard]
+
+C --> D[User Uploads Document]
+D --> E[Call document-api → version, checksum, MinIO]
+
+C --> F[User Triggers AI Agent]
+F --> G[Call agent-api → Agent Processing → Track Status]
+
+C --> H[User Reviews Document]
+H --> I[Preview Summary from summary-api]
+H --> J[Approve/Reject via erp-api]
+
+C --> K[Searches for File / Task]
+K --> L[Call document-api + task lookup]
+
+C --> M[View KPI Dashboard]
+M --> N[Embedded Grafana Panels via Observability Layer]
+
+%% Styling
+classDef block fill:#c5e1a5,stroke:#558b2f,color:#000
+classDef api fill:#fff9c4,stroke:#fdd835,color:#000
+classDef obs fill:#ede7f6,stroke:#7b1fa2,color:#000
+
+class A,B,C,D,E,F,G,H,I,J,K,L,M,N block

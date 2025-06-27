@@ -1,0 +1,149 @@
+flowchart TD
+%% Project Trigger 
+subgraph ENQUIRY[Enquiry Department]
+    direction TB
+    START[Enquiry Uploads PO + Specs] --> ERP_INIT[ERP: Create Project + Tasks]
+end
+%% Infrastructure
+subgraph INFRASTRUCTURE[Infrastructure Automation]
+    direction TB
+    ERP_INIT --> INFRA[Provision Infra: Namespace, DB, Vault, Bucket]
+end
+%% Storage
+subgraph STORAGE[Storage Layer]
+    direction TB
+    START --> STORE[Store to ERP]
+end
+%% Process Department
+subgraph PROCESS[Process Department]
+    direction TB
+    ERP_INIT --> PROC_TASKS[ERP: Create Process Tasks - Sim, PFD, Calc, P&ID]
+    PROC_TASKS --> SIM[Engineer Runs HYSYS Simulation]
+    %%PFD
+    SIM --> PFD[Draw PFD ]
+       %% %% Calc
+    PROC_TASKS --> CALC[ERP Perform Calculations: Sizing, NPSH, Flare]
+    STORE <--> CALC
+
+    %% P&ID
+    PROC_TASKS --> PID[Draw P&ID - AVEVA]
+    STORE --> PID
+end
+    
+%% ERP Actions
+subgraph ERP_ACTIONS[ERP Actions]
+    direction TB
+    EXTRACT[ERP Extracts Data and versions file] --> COMPLY[Run Compliance Agent]
+    COMPLY --> REVIEW[ERP: Send to Reviewer]
+    REVIEW --> ERP_STATUS[ERP: Mark Complete or Revision]
+    ERP_STATUS --> STORE[Storage]
+end
+
+%% Piping Department
+subgraph PIPING[Piping Department]
+    direction TB
+    PROC_TASKS --> PIPING_TASKS[ERP: Layout, 3D Model, Isometrics, Stress Analysis]
+    PIPING_TASKS --> LAYOUT[Equipment Layout - AVEVA]
+    STORE --> LAYOUT
+    %% 3D Model
+    PIPING_TASKS --> MODEL[3D Model - AVEVA]
+    STORE --> MODEL
+    %% Stress Analysis
+    PIPING_TASKS --> STRESS[Stress Analysis - AVEVA]
+    STORE --> STRESS
+    %% Isometrics
+    PIPING_TASKS --> ISOMETRICS[Isometrics - AVEVA]
+    STORE --> ISOMETRICS
+    
+end
+
+subgraph STRUCTURAL[Structural Layer]
+    direction TB 
+    STRUCTURAL_TASKS[ERP: Weight & COG Calculations, Structural Analysis:SACS,STAAD PRO, 3D Model, Fabrication Drawings] 
+    STRUCTURAL_TASKS --> WEIGHT[Weight & COG Calculations]
+    STORE --> WEIGHT
+    STRUCTURAL_TASKS --> SACS[SACS Structural Analysis]
+    STORE --> SACS
+    STRUCTURAL_TASKS --> STAAD[STAAD PRO Structural Analysis]
+    STORE --> STAAD
+    STRUCTURAL_TASKS --> MODEL[3D Model - AVEVA]
+    STORE --> MODEL
+    STRUCTURAL_TASKS --> FABRICATION[Fabrication Drawings - AVEVA]
+    STORE --> FABRICATION
+
+end
+
+
+
+
+%% SIM COMPLY
+SIM --> EXTRACT 
+EXTRACT --> COMPLY
+COMPLY --> REVIEW
+REVIEW --> ERP_STATUS
+ERP_STATUS --> STORE
+%% PFD COMPLY
+PFD --> EXTRACT
+EXTRACT --> COMPLY
+COMPLY --> REVIEW
+REVIEW --> ERP_STATUS
+ERP_STATUS --> STORE
+%% PID COMPLY
+PID --> EXTRACT
+EXTRACT --> COMPLY
+COMPLY --> REVIEW
+REVIEW --> ERP_STATUS
+ERP_STATUS --> STORE
+
+%% LAYOUT COMPLY
+LAYOUT --> EXTRACT
+EXTRACT --> COMPLY
+COMPLY --> REVIEW
+REVIEW --> ERP_STATUS
+ERP_STATUS --> STORE
+%% MODEL COMPLY
+MODEL --> EXTRACT
+EXTRACT --> COMPLY
+COMPLY --> REVIEW
+REVIEW --> ERP_STATUS
+ERP_STATUS --> STORE
+%% STRESS COMPLY
+STRESS --> EXTRACT
+EXTRACT --> COMPLY
+COMPLY --> REVIEW
+REVIEW --> ERP_STATUS
+ERP_STATUS --> STORE
+
+%% ISOMETRICS COMPLY
+ISOMETRICS --> EXTRACT
+EXTRACT --> COMPLY
+COMPLY --> REVIEW
+REVIEW --> ERP_STATUS
+ERP_STATUS --> STORE 
+
+%% WEIGHT COMPLY
+WEIGHT --> EXTRACT
+EXTRACT --> COMPLY
+COMPLY --> REVIEW
+REVIEW --> ERP_STATUS
+ERP_STATUS --> STORE
+
+%% SACS COMPLY
+SACS --> EXTRACT
+EXTRACT --> COMPLY
+COMPLY --> REVIEW
+REVIEW --> ERP_STATUS
+ERP_STATUS --> STORE
+%% STAAD COMPLY         
+STAAD --> EXTRACT
+EXTRACT --> COMPLY
+COMPLY --> REVIEW
+REVIEW --> ERP_STATUS
+ERP_STATUS --> STORE
+%% FABRICATION COMPLY
+FABRICATION --> EXTRACT
+EXTRACT --> COMPLY
+COMPLY --> REVIEW
+REVIEW --> ERP_STATUS
+ERP_STATUS --> STORE
+%% END

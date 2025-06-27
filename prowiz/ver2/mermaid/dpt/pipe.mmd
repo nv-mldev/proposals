@@ -1,0 +1,41 @@
+flowchart LR
+  subgraph "Piping Department"
+    PD1[triggering piping task]:::dept
+    PD2[Equipment Layout]:::dept
+    PD3[3D Modeling]:::dept
+    PD4[Stress Analysis]:::dept
+    PD5[Support Details\n& Drawings]:::dept
+    PD6[Isometric Drawings]:::dept
+    PD7[Valve List]:::dept
+    PD8[Specialty Datasheets]:::dept
+    PD9[Final Compliance\nReview]:::dept
+  end
+
+  subgraph "ERP Automation"
+    EA1[Digitised Data Reader]:::erp
+    EA2[Layout Parsing\n& Extraction]:::erp
+    EA3[3D Model Parsing\n& Extraction]:::erp
+    EA4[Stress Data Extraction]:::erp
+    EA5[Drawing Parsing\n& Extraction]:::erp
+    EA6[Isometric Extraction]:::erp
+    EA7[Valve Data Extraction]:::erp
+    EA8[Datasheet Generator]:::erp
+    EA9[Compliance Agent]:::erp
+    EA10[Revision Loop & Alerts]:::erp
+    EA11[File Versioning & Object Store]:::erp
+  end
+
+  PD1 --> EA1 <--> EA11 --> EA9 --> PD9
+  PD2 --> EA2 <--> EA11 --> EA9 --> PD9
+  PD3 --> EA3 <--> EA11 --> EA9 --> PD9
+  PD4 --> EA4 <--> EA11 --> EA9 --> PD9
+  PD5 --> EA5 <--> EA11 --> EA9 --> PD9
+  PD6 --> EA6 <--> EA11 --> EA9 --> PD9
+  PD7 --> EA7 <--> EA11 --> EA9 --> PD9
+  PD8 --> EA8 <--> EA11 --> EA9 --> PD9
+  PD9 --> EA10 
+
+  classDef dept fill:#fce4ec,stroke:#d81b60,color:#000
+  classDef erp  fill:#ffe0b2,stroke:#ef6c00,color:#000
+
+

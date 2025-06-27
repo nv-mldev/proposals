@@ -1,0 +1,30 @@
+flowchart LR
+  subgraph "Structural Department"
+    SD1[Ingest Inputs:<br/>Codes & Standards, Specifications,<br/>Weight/COG, Layout, 3D Models]:::dept
+    SD2[Generate Weight & COG Report]:::dept
+    SD3[Structural Analysis<br/>SACS / STAAD PRO]:::dept
+    SD4[Produce 3D Model]:::dept
+    SD5[Create Fabrication Drawings]:::dept
+    SD6[Final Review & Approval]:::dept
+  end
+
+  subgraph "ERP Automation"
+    EA1[Digitised Data Reader]:::erp
+    EA2[Weight & COG Report Generator]:::erp
+    EA3[Structural Analysis Simulation Parser]:::erp
+    EA4[3D Model Parser & Updater]:::erp
+    EA5[Fabrication Drawing parsing and Generator]:::erp
+    CA[Compliance Agent]:::erp
+    VE[Versioning Engine & Object Store]:::erp
+    RL[Revision Loop & Alerts]:::erp
+  end
+
+  SD1 --> EA1 <--> VE --> CA --> SD6
+  SD2 --> EA2 <--> VE --> CA --> SD6
+  SD3 --> EA3 <--> VE --> CA --> SD6
+  SD4 --> EA4 <--> VE --> CA --> SD6
+  SD5 --> EA5 <--> VE --> CA --> SD6
+  SD6 --> RL 
+
+  classDef dept fill:#fce4ec,stroke:#d81b60,color:#000
+  classDef erp  fill:#ffe0b2,stroke:#ef6c00,color:#000

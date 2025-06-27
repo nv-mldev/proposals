@@ -1,0 +1,41 @@
+flowchart LR
+  %%–– Class definitions ––
+  classDef sales fill:#eee,stroke:#777,stroke-width:1px,color:#000;
+  classDef infra fill:#f5f5f5,stroke:#424242,stroke-width:1px,color:#000;
+  classDef etl   fill:#c8e6c9,stroke:#388e3c,stroke-width:1px,color:#000;
+  classDef erp   fill:#ffe0b2,stroke:#ef6c00,stroke-width:1px,color:#000;
+  classDef ai    fill:#fff3e0,stroke:#fb8c00,stroke-width:1px,color:#000;
+  classDef obs   fill:#b2ebf2,stroke:#0097a7,stroke-width:1px,stroke-dasharray:5 5,color:#000;
+
+  %%–– Start & End ––
+  Start([Sales PO & Spec Docs Uploaded]):::sales
+  End([Proceed to PFD / Design & Review]):::infra
+
+  %%–– Project Setup ––
+  Start --> B1[ERP Creates Namespace, DB & Bucket]:::infra
+  B1 --> B2[Configure Vault, Metrics & Storage]:::infra
+
+  %%–– Simulation Task ––
+  B2 --> D1[Create Simulation Task]:::erp
+  D1 --> D2[Assign Engineer & Set SLA]:::erp
+  D2 --> Sim[Engineer Runs Simulation<br/>& Uploads Outputs]:::erp
+  Sim --> D3[Auto-Version Simulation Files<br/>& Link to Task]:::erp
+
+  %%–– Spec Extraction ––
+  D3 --> C1[Extract Spec Parameters<br/>via Extraction Agent]:::etl
+  D3 --> C2[Extract Simulation Params<br/>via COM/API]:::etl
+  C1 --> C3[Store Spec Params in Spec DB]:::etl
+  C2 --> C4[Store Sim Params in Sim DB]:::etl
+
+  %%–– Compliance Check ––
+  C3 --> E1[Trigger Compliance Agent]:::ai
+  C4 --> E1
+  E1 --> G1{"Compliance Check Pass?"}:::ai
+  G1 -->|Yes| End
+  G1 -->|No| R1[Revision Alert: Input Drift Detected]:::obs
+  R1 --> D1
+
+  %%–– Observability (dotted) ––
+  D3 -.-> OBS1[Log Task Events & SLAs]:::obs
+  E1 -.-> OBS1
+  OBS1 --> OBS2[Push Metrics & Alerts to Monitoring]:::obs

@@ -1,0 +1,35 @@
+flowchart LR
+  subgraph Host["Single Physical Host"]
+    direction TB
+
+    subgraph ControlPlane_VMs
+      CP1["CP-VM1: 8 vCPU, 32 GB RAM"]:::vm
+      CP2["CP-VM2: 8 vCPU, 32 GB RAM"]:::vm
+      CP3["CP-VM3: 8 vCPU, 32 GB RAM"]:::vm
+    end
+
+    subgraph Worker_VMs
+      GW1["GW-VM1: 16 vCPU, 64 GB RAM"]:::vm
+      GW2["GW-VM2: 16 vCPU, 64 GB RAM"]:::vm
+      GW3["GW-VM3: 16 vCPU, 64 GB RAM"]:::vm
+    end
+
+    subgraph AI_VMs
+      AI1["AI-VM1: 16 vCPU, 128 GB RAM + 2×T4"]:::vm
+      AI2["AI-VM2: 16 vCPU, 128 GB RAM + 2×T4"]:::vm
+    end
+
+    subgraph Storage_VMs
+      ST1["Storage-VM1: 8 vCPU, 32 GB RAM"]:::vm
+      ST2["Storage-VM2: 8 vCPU, 32 GB RAM"]:::vm
+      ST3["Storage-VM3: 8 vCPU, 32 GB RAM"]:::vm
+    end
+
+    subgraph Infra_VMs
+      ING["Ingress-VM: 4 vCPU, 16 GB RAM"]:::vm
+      OBS["Obs-VM: 8 vCPU, 32 GB RAM"]:::vm
+      AUTH["Auth-VM: 4 vCPU, 16 GB RAM"]:::vm
+    end
+  end
+
+  classDef vm fill:#d1c4e9,stroke:#5e35b1,color:#000

@@ -1,0 +1,28 @@
+flowchart LR
+  subgraph API_Layer["API Layer"]
+    direction LR
+
+    %% Core API Components
+    ING[Ingress Controller<br/>NGINX or Traefik]:::api
+    GATEWAY[API Gateway<br/>Envoy or Kong]:::api
+    ROUTER[Request Router]:::api
+    AUTH[Auth & RBAC<br/>OAuth2, JWT]:::api
+    RATE[Rate Limiter & Throttling]:::api
+    VAL[Schema Validator<br/>OpenAPI]:::api
+    CIRCUIT[Circuit Breaker / Retry]:::api
+    PROXY[Upstream Proxy<br/>Service Mesh]:::api
+
+    %% Supporting Services
+    DOCS[Swagger UI / OpenAPI Explorer]:::api
+    METRICS[Metrics & Tracing Exporter]:::api
+  end
+
+  %% Request Flow
+  ING --> GATEWAY --> ROUTER --> AUTH --> RATE --> VAL --> CIRCUIT --> PROXY
+
+  %% Auxilliary Endpoints
+  GATEWAY --> DOCS
+  GATEWAY -.-> METRICS
+
+  %% Styling
+  classDef api fill:#e3f2fd,stroke:#2196f3,color:#000

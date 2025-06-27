@@ -1,0 +1,44 @@
+flowchart LR
+  subgraph Infrastructure_Layer["Infrastructure Layer"]
+    direction TB
+
+    LB[Load Balancer<br/>MetalLB or Cloud LB]:::infra
+    DNS[External DNS<br/>Route53 or CoreDNS]:::infra
+    IC[Ingress Controller<br/>NGINX or Traefik]:::infra
+    SM[Service Mesh<br/>Istio or Envoy]:::infra
+    K8s[Kubernetes Cluster<br/>Control Plane & Nodes]:::infra
+
+    Vault[HashiCorp Vault<br/>Secrets Mgmt]:::infra
+    Prom[Prometheus<br/>Metrics Collection]:::infra
+    AG[Alertmanager<br/>Alerting]:::infra
+    Graf[Grafana<br/>Dashboards]:::infra
+    Loki[Loki<br/>Log Aggregation]:::infra
+    Jaeger[Jaeger<br/>Distributed Tracing]:::infra
+
+    MinIO[MinIO or S3<br/>Object Storage]:::infra
+    PG[(PostgreSQL)]:::database
+    Mongo[(MongoDB)]:::database
+  end
+
+  %% Connectivity
+  DNS --> LB
+  LB --> IC
+  IC --> SM
+  SM --> K8s
+
+  %% Platform Services
+  K8s --> Vault
+  K8s --> Prom
+  K8s --> AG
+  K8s --> Graf
+  K8s --> Loki
+  K8s --> Jaeger
+
+  %% Data Stores
+  K8s --> MinIO
+  K8s --> PG
+  K8s --> Mongo
+
+  %% Class definitions
+  classDef infra fill:#f5f5f5,stroke:#424242,stroke-width:1px,color:#000
+  classDef database fill:#d1c4e9,stroke:#5e35b1,stroke-dasharray:5 5,color:#000

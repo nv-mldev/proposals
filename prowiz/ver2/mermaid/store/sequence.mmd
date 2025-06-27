@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant ETL as ETL Layer
+    participant FILE as File Management Layer
+    participant STORAGE as Storage API
+    participant S3 as Object Store
+    participant META as Metadata DB
+    participant ERP as ERP Task Engine
+
+    ETL->>STORAGE: Upload document
+    STORAGE->>S3: Store file blob
+    STORAGE->>META: Save metadata entry
+    STORAGE->>ERP: Return version ID and status
+
+    Note over STORAGE: On request by UI or agent
+    FILE->>STORAGE: Request latest version and metadata
+    STORAGE-->>FILE: Return file and metadata

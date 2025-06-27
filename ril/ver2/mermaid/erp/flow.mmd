@@ -1,0 +1,46 @@
+flowchart LR
+  subgraph ERP_Task_Engine ["ERP Task Engine Flow"]
+    direction LR
+
+    %% Start & End
+    ST([Start Workflow]):::start
+    EN([End Workflow]):::endNode
+
+    %% Core Steps
+    TM[Task Manager<br/>Create / Update Task]:::component
+    WC[Workflow Controller<br/>State Transitions]:::component
+    RI[Review Interface<br/>Approve / Reject]:::component
+    JD{Approved?}:::decision
+    RA[Revision Alert Engine<br/>Trigger Revision Task]:::component
+    NS[Notification System<br/>Alerts & Escalations]:::component
+
+    %% Post-approval subscribers
+    TE[Task Tracker<br/>Status & Time Sheets]:::component
+    AE[Analytics Engine<br/>SLA & Metrics]:::component
+    QA[Project Query Agent<br/>Status Insights]:::component
+
+    %% API exit point
+    EI[ERP API Interface<br/>Expose Endpoints]:::component
+  end
+
+  %% Main happy path
+  ST --> TM --> WC --> RI --> JD
+  JD -->|Yes| NS
+  JD -->|No| RA --> TM
+
+  %% After approval
+  NS --> TE
+  NS --> AE
+  NS --> QA
+
+  %% Collate results & finish
+  TE --> EI
+  AE --> EI
+  QA --> EI
+  EI --> EN
+
+  %% Styling
+  classDef component fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef decision  fill:#fff3e0,stroke:#fb8c00,color:#000
+  classDef start     fill:#c8e6c9,stroke:#388e3c,color:#000
+  classDef endNode   fill:#c8e6c9,stroke:#388e3c,color:#000

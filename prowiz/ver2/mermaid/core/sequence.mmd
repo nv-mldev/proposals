@@ -1,0 +1,34 @@
+sequenceDiagram
+    participant SALES as Sales/Enquiry Dept
+    participant INFRA as Infrastructure Layer
+    participant ERP as ERP Task Engine
+    participant ETL as Digitisation & Extraction Layer
+    participant FILE as File Management
+    participant AGENT as AI Agent Layer
+    participant OBS as Observability
+    participant USER as Engineer / Reviewer
+
+    SALES->>ERP: Upload PO + Specs → Trigger Project
+    ERP->>INFRA: Initiate Project Provisioning
+    INFRA->>INFRA: Create Namespace, DB, Bucket, Vault Path
+    INFRA->>OBS: Register Grafana Dashboard + Prometheus Rules
+    INFRA->>INFRA: Deploy Agent Scaffolds + File Watcher
+
+    Note over INFRA: Project infra ready
+
+    ERP->>ETL: Monitor simulation folder + structured inputs
+    ETL->>FILE: Watchdog detects file, triggers extract (via COM/API)
+    ETL->>ERP: Extracted data → Update task context
+    FILE->>OBS: Log file + version
+
+    ERP->>AGENT: Trigger agent scaffold (e.g. Compliance)
+    AGENT->>ERP: Post results to ERP task
+    AGENT->>OBS: Log agent run, result
+    AGENT->>FILE: Store annotated file (optional)
+
+    USER->>ERP: Review task + AI result
+    USER->>ERP: Mark complete or request change
+    ERP->>OBS: Log status, SLA
+
+
+

@@ -1,0 +1,44 @@
+\documentclass{beamer}
+\usepackage{graphicx}
+\usetheme{Madrid}
+\setbeamertemplate{section page}[default][colsep=-4bp,rounded=true,shadow=true]
+\AtBeginSection[]{
+  \begin{frame}[plain]    % [plain] removes header/footer
+    \sectionpage
+  \end{frame}
+}
+\graphicspath{{/home/nithin/work/proposals/prowiz/ver2/mermaid/}}
+\title[Prowiz]{Prowiz-An Enterprise IntelliAgent ERP}
+\author[Nithin]{Nithin}
+\institute[Nithin]{A collaborative effort of \textbf{Dhvani-AI}, \textbf{Cortez}, \textbf{Kavin}}
+\date{April 2025}
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Outline
+\begin{frame}
+  \frametitle{Outline}
+  \tableofcontents
+\end{frame}
+
+\input{sections/intro}    
+\input{sections/core}
+\input{sections/infra}
+\input{sections/erp}
+\input{sections/etl}
+\input{sections/ai}
+\input{sections/file}
+\input{sections/obs}
+\input{sections/store}
+\input{sections/api}
+\input{sections/dpt}
+\input{sections/kube}
+\input{sections/ui}
+\input{sections/team}
+
+\end{document}

@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant ETL as ETL Layer
+    participant AGENT as AI Agent Layer
+    participant ERP as ERP Task Engine
+    participant OBS as Observability Layer
+    participant USER as Dashboard Viewer
+
+    ETL->>OBS: Push job duration and status (Prometheus)
+    AGENT->>OBS: Push agent runtime and output log (Loki or ELK)
+    ERP->>OBS: Push task event and SLA (TimescaleDB)
+
+    OBS->>OBS: Detect SLA breach or job failure
+    OBS->>USER: Notify via alert or dashboard
+    USER->>OBS: View logs and metrics in Grafana

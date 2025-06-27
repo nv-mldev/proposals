@@ -1,4 +1,0 @@
-\beamer@sectionintoc {1}{System Architecture Layers}{3}{0}{1}
-\beamer@sectionintoc {2}{ERP Task Engine Layer}{8}{0}{2}
-\beamer@sectionintoc {3}{ETL and Digitisation Layer}{17}{0}{3}
-\beamer@sectionintoc {4}{AI Agent Layer}{22}{0}{4}

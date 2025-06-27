@@ -1,0 +1,47 @@
+flowchart LR
+  subgraph API_Layer_Flow["API Layer Behavioral Flow"]
+    direction LR
+
+    %% Start & End
+    CL([Client Request]):::start
+    RD([Response Delivered]):::endClass
+
+    %% API Steps
+    ING[Ingress Controller<br/>TLS Termination]:::api
+    GW[API Gateway<br/>Policy Enforcement]:::api
+    RT[Request Router<br/>Path & Header Routing]:::api
+    AU[Auth & RBAC Check]:::api
+    AD{Auth Successful?}:::decision
+    RL[Rate Limiter]:::api
+    RD2{Within Rate Limit?}:::decision
+    SV[Schema Validator<br/>OpenAPI]:::api
+    VD{Payload Valid?}:::decision
+    CB[Circuit Breaker<br/>Retry or Fallback]:::api
+    UP[Upstream Proxy / Service Mesh]:::api
+    US[Backend Service]:::api
+
+    %% Flow
+    CL --> ING --> GW --> RT --> AU --> AD
+    AD -->|Yes| RL
+    AD -->|No| ERR401([401 Unauthorized]):::error --> RD
+
+    RL --> RD2
+    RD2 -->|Yes| SV
+    RD2 -->|No| ERR429([429 Too Many Requests]):::error --> RD
+
+    SV --> VD
+    VD -->|Yes| CB
+    VD -->|No| ERR400([400 Bad Request]):::error --> RD
+
+    CB --> UP --> US --> UP
+    UP --> GW
+    GW --> SUCCESS([200 OK]):::success --> RD
+
+  end
+
+  classDef api       fill:#e3f2fd,stroke:#2196f3,color:#000
+  classDef decision  fill:#fff9c4,stroke:#fbc02d,color:#000
+  classDef error     fill:#ffebee,stroke:#c62828,color:#000
+  classDef success   fill:#e8f5e9,stroke:#388e3c,color:#000
+  classDef start     fill:#e0f7fa,stroke:#006064,color:#000
+  classDef endClass   fill:#e0f7fa,stroke:#006064,color:#000

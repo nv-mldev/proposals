@@ -1,0 +1,40 @@
+flowchart LR
+  subgraph Storage_Layer_Flow["Storage Layer Flow"]
+    direction LR
+
+    %% Start Events
+    WR([Write Operation]):::start
+    RD([Read Operation]):::start
+
+    %% Storage Components
+    OS[Object Store]:::storage
+    RDB[Relational DB]:::storage
+    DOCDB[Document DB]:::storage
+    VDB[Vector DB]:::storage
+    BK[Backup & Archive]:::storage
+
+    %% End Event
+    DONE([Operation Complete]):::endNode
+
+    %% Write Paths
+    WR -->|Store Blob| OS
+    WR -->|Store Relational Data| RDB
+    WR -->|Store Document Data| DOCDB
+    WR -->|Store Embeddings| VDB
+
+    %% Backup Triggers
+    OS -->|Snapshot & Archive| BK
+    RDB -->|Snapshot & Archive| BK
+    DOCDB -->|Snapshot & Archive| BK
+    VDB -->|Snapshot & Archive| BK
+
+    %% Read Paths
+    RD -->|Fetch Blob| OS --> DONE
+    RD -->|Query Relational DB| RDB --> DONE
+    RD -->|Fetch Document| DOCDB --> DONE
+    RD -->|Vector Search| VDB --> DONE
+  end
+
+  classDef storage fill:#d1c4e9,stroke:#5e35b1,color:#000
+  classDef start   fill:#e0f7fa,stroke:#006064,color:#000
+  classDef endNode fill:#e0f7fa,stroke:#006064,color:#000

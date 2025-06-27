@@ -1,0 +1,55 @@
+flowchart TB
+
+
+  
+
+subgraph Observability_Layer
+
+    A1[Metrics Collector - Prometheus]
+    A2[Log Aggregator - Loki / ELK / Fluentd]
+    A3[Tracing Engine - Jaeger / Tempo]
+    A4[Dashboard - Grafana]
+    A5[Alert Manager - Prometheus Alertmanager]
+    A6[Audit Log DB - TimescaleDB / Postgres]
+
+end
+
+%% Data Sources
+B1[ETL Services]
+B2[AI Agents]
+B3[API Gateway]
+B4[ERP and Task Engine]
+B5[Storage Layer]
+
+B1 --> A1
+B2 --> A1
+B3 --> A1
+B4 --> A1
+B5 --> A1
+
+B1 --> A2
+B2 --> A2
+B3 --> A2
+B4 --> A2
+B5 --> A2
+
+B1 --> A3
+B2 --> A3
+B3 --> A3
+
+A1 --> A4
+A2 --> A4
+A3 --> A4
+A6 --> A4
+
+A1 --> A5
+A2 --> A5
+
+%% Styling
+classDef title fill:#f3f4f6,stroke:#000,color:#000,font-size:20px,font-weight:bold
+classDef system fill:#f3f4f6,stroke:#2196f3,color:#000
+classDef observ fill:#ede7f6,stroke:#7b1fa2,color:#000
+
+class Title title
+class A1,A2,A3,A4,A5,A6 observ
+class B1,B2,B3,B4,B5 system

@@ -1,0 +1,30 @@
+flowchart LR
+  subgraph Observability_Layer_Flow["Observability Layer Flow"]
+    direction LR
+
+    %% Start: Services emitting telemetry
+    SVC[App & Infrastructure Services<br/>Emit Metrics, Logs & Traces]:::start
+
+    %% Collection
+    SVC --> OTEL[OpenTelemetry Collector<br/>Scrapes & Receives]:::component
+
+    %% Routing to stores
+    OTEL -->|Metrics| PROM[Prometheus<br/>Time-series Store]:::component
+    OTEL -->|Logs| LOKI[Loki<br/>Log Aggregation]:::component
+    OTEL -->|Traces| JAEG[Jaeger<br/>Distributed Tracing]:::component
+
+    %% Visualization
+    PROM --> GRAF[Grafana Dashboards]:::component
+    LOKI --> GRAF
+    JAEG --> GRAF
+
+    %% Alerting path
+    PROM --> ALRM[Alertmanager<br/>Rule Evaluation]:::component
+    ALRM -->|Webhook| MM[Mattermost Alerts Channel]:::component
+    MM -->|"@oncall ack"| ALRM
+    MM -->|"@oncall escalate"| ALRM     
+    ALRM -->|Notify| SLACK[Mattermost or Email]:::component
+  end
+
+  classDef start     fill:#e0f7fa,stroke:#006064,color:#000
+  classDef component fill:#b2ebf2,stroke:#0097a7,color:#000

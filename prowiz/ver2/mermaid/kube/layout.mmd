@@ -1,0 +1,100 @@
+flowchart TD
+    subgraph VM1
+        direction TB
+        LB[Load Balancer + Ingress : Nginx] --> API[API Gateway: Kong] 
+        API --> UI[Web UI+Mattermost Chat Interface]
+        UI --> AUTH[Auth Service : JWT,SSO]
+        AUTH --> RBAC[RBAC Service : Role-Based Access Control]
+    end
+    %% VM2 - ERP + File
+subgraph VM2 [VM2: ERP + File APIs]
+    ERP_API[ERP Task Engine API]
+    FILE_API[File Management API]
+     ETL_WATCH[ETL & File Watcher]
+
+end
+RBAC --> ERP_API
+RBAC --> FILE_API
+RBAC --> ETL_WATCH
+WIN_NODE --> ETL_WATCH
+
+%% VM3 - ETL
+
+subgraph VM3 [VM3: GPU Agent Node ]
+    AGENT_SVC[Agent Service Manager]
+    DOC_GEN[Document Generation Agent]
+    COMPLY_AGENT[Compliance Agent]
+    DIAGRAM_GPT[DiagramGPT Agent]
+    DOTS[...]:::dots
+    QUERY[Query Agent]
+end
+ERP_API --> AGENT_SVC
+AGENT_SVC --> DOC_GEN
+AGENT_SVC --> COMPLY_AGENT
+AGENT_SVC --> DIAGRAM_GPT
+AGENT_SVC --> DOTS
+AGENT_SVC --> QUERY
+
+%% VM4 - Storage
+subgraph VM4 [VM4: Storage Layer]
+    MINIO[(MinIO - Object Store)]
+    POSTGRES[(Postgres - ERP DB)]
+    MONGO[(MongoDB - File Metadata)]
+    VECTOR[(Qdrant/FAISS - Vector DB)]
+    TIMESCALE[(TimescaleDB - Audit/SLA)]
+end
+ERP_API --> POSTGRES
+FILE_API --> MINIO
+FILE_API --> MONGO
+AGENT_SVC --> VECTOR
+ETL_WATCH --> MINIO
+ETL_WATCH --> MONGO
+ERP_API --> TIMESCALE
+
+
+%% VM5 - Observability
+subgraph VM5 [VM5: Observability]
+    PROM[Prometheus - Metrics]
+    GRAF[Grafana - Dashboards]
+    LOKI[Loki - Logs]
+    JAEGER[Jaeger - Traces]
+end
+ERP_API --> PROM
+ETL_WATCH --> PROM
+AGENT_SVC --> PROM
+FILE_API --> PROM
+PROM --> GRAF
+LOKI --> GRAF
+JAEGER --> GRAF
+
+%% VM7 - Reporting + Notify
+subgraph VM6 [VM6  Reporting + Notifications]
+    REPORTING[Reporting Module]
+    NOTIFY[Notification & Alert Service]
+end
+RBAC --> REPORTING
+RBAC--> NOTIFY
+ERP_API --> REPORTING
+ERP_API --> NOTIFY
+
+
+%%VM7 - Windows Simulation Node
+subgraph VM7 [VM7: Windows Node - Simulation Tools]
+    WIN_NODE[Windows File + DB Connector + Windows Watchdog]
+end
+WIN_NODE --> FILE_API
+
+
+%% DR & Replica
+subgraph DR_Replica[Disaster Recovery Site]
+    DR_MINIO[(MinIO Replica)]
+    DR_POSTGRES[(Postgres Replica)]
+    DR_MONGO[(MongoDB Replica)]
+    DR_VECTOR[(Vector Backup)]
+    DR_TIMESCALE[(Timescale Replica)]
+end
+MINIO --> DR_MINIO
+POSTGRES --> DR_POSTGRES
+MONGO --> DR_MONGO
+VECTOR --> DR_VECTOR
+TIMESCALE --> DR_TIMESCALE

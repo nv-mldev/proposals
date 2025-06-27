@@ -1,0 +1,62 @@
+flowchart LR
+  subgraph ERP Task Engine Layer
+    direction LR
+
+    %% Start & End
+    ST([Start Workflow]):::start
+    ED([End Workflow]):::endNode
+
+    %% Core Components
+    A1[Task Manager<br/>Create / Update]:::component
+    A2[Workflow Controller<br/>State Transitions]:::component
+    A3[Review Interface<br/>Approve / Reject]:::component
+    D1{Approved?}:::decision
+    A7[Revision Alert Engine<br/>Trigger on Spec Change]:::component
+    A6[Notification System<br/>Alerts & Escalations]:::component
+    A5[Task Tracker<br/>Status & Time Sheets]:::component
+    A9[Analytics Engine<br/>SLA & Metrics]:::component
+    A8[Project Query Agent<br/>Status Insights]:::component
+    A4[Project Planner<br/>WBS & Gantt]:::component
+    A10[File Browser<br/>Task Documents]:::component
+    A11[ERP API Interface<br/>External Integration]:::component
+
+    %% Database
+    DB[(Task Database)]:::database
+
+    %% Process Flow
+    ST --> A1
+    A1 --> A2
+    A2 --> A3
+    A3 --> D1
+    D1 -->|Yes| A6
+    A6 --> A5
+    A5 --> A9
+    A9 --> A8
+    A8 --> A11
+    A11 --> ED
+    D1 -->|No| A7
+    A7 --> A1
+    A2 --> A4
+    A2 --> A10
+
+    %% Persistence Links
+    A1 --> DB
+    A2 --> DB
+    A3 --> DB
+    A4 --> DB
+    A5 --> DB
+    A6 --> DB
+    A7 --> DB
+    A8 --> DB
+    A9 --> DB
+    A10 --> DB
+    A11 --> DB
+
+  end
+
+  %% Styling (Crucially, OUTSIDE the subgraph)
+  classDef component fill:#ffe0b2,stroke:#ef6c00,color:#000;
+  classDef database  fill:#d1c4e9,stroke:#5e35b1,stroke-dasharray:5 5,color:#000;
+  classDef decision  fill:#fff3e0,stroke:#fb8c00,color:#000;
+  classDef start fill:#c8e6c9,stroke:#388e3c,color:#000;
+  classDef endNode fill:#c8e6c9,stroke:#388e3c,color:#000;

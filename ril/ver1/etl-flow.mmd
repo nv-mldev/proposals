@@ -1,0 +1,50 @@
+flowchart TD
+    %% ENTRY
+    A[Start - Triggered by Upload or ERP Task] --> B{Input Source Type}
+
+    %% SIMULATION AND DESIGN PATH
+    B -->|Simulation or Design File| C1[Connect to Simulation Software DB or COM API]
+    C1 --> C2[Extract Process Data - streams-units-tags]
+    C2 --> C3[Optional - Store Raw File to MinIO]
+    C2 --> G[Extract Metadata - filename - hash - user - timestamp]
+
+    %% DOCUMENT AND EMAIL PATH
+    B -->|Customer Email| D1[Run Email Parsing Agent]
+    B -->|Uploaded PDF or Excel| D2[Run Document Extraction Agent]
+    B -->|Scanned Drawing| D3[Run OCR and Table Agent]
+
+    D1 --> D4[Classify Document Type]
+    D2 --> D4
+    D3 --> D4
+    D4 --> D5[Auto Map to ERP Project or Task]
+    D5 --> D6[Compute Checksum and Compare]
+    D6 --> E{Is File Changed}
+
+    E -->|No - Duplicate| F1[Skip Parsing - Log Metadata Only]
+    E -->|Yes - New File| F2[Store Raw File to MinIO]
+    F2 --> G[Extract Metadata - filename - hash - user - timestamp]
+
+    %% COMMON METADATA FLOW
+    G --> H[Store Metadata to Metadata DB]
+    H --> I[Generate Preview or Change Summary]
+    I --> J[Log Audit Trail and File Checksum]
+
+    J --> K{Parsing Successful}
+    K -->|Yes| L[Trigger Review or ERP Approval Workflow]
+    K -->|No| M[Add to Retry Queue and Log Error]
+
+    L --> N[File Ready for AI Review]
+    M --> N
+    N --> O[End - File Ready for Human Approval]
+
+    %% STYLING
+    classDef source fill:#e3f2fd,stroke:#2196f3,color:#000
+    classDef ai fill:#fff3e0,stroke:#fb8c00,color:#000
+    classDef ingest fill:#e8f5e9,stroke:#43a047,color:#000
+    classDef review fill:#fffde7,stroke:#fdd835,color:#000
+    classDef retry fill:#ffcdd2,stroke:#e53935,color:#000
+
+    class A,B,C1,C2,C3,D1,D2,D3,D4,D5 source
+    class D6,E,F1,F2,G,H ingest
+    class I,J,L,M,N,O review
+    class K retry

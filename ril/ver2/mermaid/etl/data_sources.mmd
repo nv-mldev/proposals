@@ -1,0 +1,59 @@
+flowchart LR
+  subgraph ETL_and_Digitisation_Layer["ETL & Digitisation Layer"]
+    direction LR
+
+    %% Start & End
+    ST([Start ETL Job]):::start
+    ED([ETL Complete]):::endNode
+
+    %% Input Sources
+    ST --> EMAIL[Customer Email Inbox]:::input
+    ST --> DOCS[Customer Documents<br/>Specs, PDFs]:::input
+    ST --> SIMFILES[Simulation & Design Files]:::input
+
+    %% Extraction Agents / Watchdog
+    EMAIL --> AGENT1[Email Parser Agent]:::agent
+    DOCS --> AGENT2[Doc Extraction Agent]:::agent
+    SIMFILES --> WATCHDOG[File Watchdog]:::agent
+
+    %% Parsing / Extraction Logic
+    AGENT1 --> PARSE1[Parse Intent & Specs]:::extract
+    AGENT2 --> PARSE2[Extract Codes & Tables]:::extract
+    WATCHDOG -->    SIM_CONN[Simulation Connector<br/>API/COM]:::agent
+    SIM_CONN --> PARSE3[Extract Params & Models]:::extract
+
+    %% Validation Decisions
+    PARSE1 --> VAL1{Valid Spec Data?}:::decision
+    PARSE2 --> VAL2{Valid Spec Data?}:::decision
+    PARSE3 --> VAL3{Valid Sim Data?}:::decision
+
+    VAL1 -->|Yes| WRITE_S[Write to Spec DB]:::store
+    VAL1 -->|No| EH1[Error Handler<br/>Notify & Retry]:::error
+    VAL2 -->|Yes| WRITE_S
+    VAL2 -->|No| EH1
+    VAL3 -->|Yes| WRITE_M[Write to Sim DB]:::store
+    VAL3 -->|No| EH2[Error Handler<br/>Notify & Retry]:::error
+
+    %% Databases & Downstream
+    WRITE_S --> SpecDB[(Digitised Spec DB)]:::database
+    WRITE_M --> SpecDB
+    SpecDB --> ERP_TASKS[ERP Task Creation]:::store
+    SpecDB --> AGENT_TRIGGER[Trigger Compliance & Gen Agents]:::store
+    SpecDB --> VERSIONER[Auto-Version & Link Files]:::store
+
+    %% Completion
+    ERP_TASKS --> ED
+
+  end
+
+  %% Styling
+  classDef input      fill:#fce4ec,stroke:#d81b60,color:#000
+  classDef agent      fill:#ede7f6,stroke:#512da8,color:#000
+  classDef extract    fill:#e3f2fd,stroke:#1976d2,color:#000
+  classDef decision   fill:#fff9c4,stroke:#fbc02d,color:#000
+  classDef store      fill:#f0f4c3,stroke:#afb42b,color:#000
+  classDef database   fill:#d1c4e9,stroke:#5e35b1,stroke-dasharray:5 5,color:#000
+  classDef error      fill:#ffebee,stroke:#c62828,color:#000
+  classDef start      fill:#e0f7fa,stroke:#006064,color:#000
+  classDef endNode    fill:#e0f7fa,stroke:#006064,color:#000
+

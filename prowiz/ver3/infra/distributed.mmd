@@ -1,0 +1,31 @@
+flowchart TB
+  DNS[DNS] --> LB[Load Balancer]
+  LB --> IC[Ingress Controller]
+  IC --> SM[Service Mesh]
+
+  subgraph CP[Control Plane]
+    CP1[DL360 Gen10: 2×5218R,128GB]
+    CP2[DL360 Gen10: 2×5218R,128GB]
+    CP3[DL360 Gen10: 2×5218R,128GB]
+  end
+  SM --> CP1 & CP2 & CP3
+
+  subgraph Workers
+    GW1[R750: 2×5318Y,256GB]
+    GW2[R750: 2×5318Y,256GB]
+    GW3[R750: 2×5318Y,256GB]
+    AI1[SYS-2029GP-TR: 2×6348,512GB + 4×T4]
+    AI2[SYS-2029GP-TR: 2×6348,512GB + 4×T4]
+  end
+  CP1 --> GW1 & AI1
+  CP2 --> GW2 & AI2
+  CP3 --> GW3
+
+  subgraph Storage[MinIO & Datastores]
+    ST1[SYS-6029P-E1CR24L: 2×4214,64GB,12×8TB HDD]
+    ST2[SYS-6029P-E1CR24L: 2×4214,64GB,12×8TB HDD]
+    ST3[SYS-6029P-E1CR24L: 2×4214,64GB,12×8TB HDD]
+  end
+  GW1 --> ST1
+  GW2 --> ST2
+  GW3 --> ST3

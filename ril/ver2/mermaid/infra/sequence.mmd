@@ -1,0 +1,28 @@
+sequenceDiagram
+    participant UI as ERP or UI Layer
+    participant API as API Layer
+    participant PROV as Provisioning Controller
+    participant K8S as Kubernetes or Helm Linux
+    participant VAULT as Vault Secret Manager
+    participant DB as Database Engine
+    participant S3 as Object Storage
+    participant OBS as Observability Stack
+    participant WIN as Windows Simulation Node
+
+    UI->>API: Create Project - Plant X
+    API->>PROV: Trigger Project Bootstrap
+
+    PROV->>K8S: Create Namespace - plant x
+    PROV->>VAULT: Create Secrets Path and Policies
+    PROV->>DB: Provision Database or Schema
+    PROV->>S3: Create Object Bucket - plant x
+    PROV->>OBS: Register Grafana Dashboards and Prometheus Rules
+    PROV->>K8S: Deploy Helm Chart with Agent Config and PVC
+
+    PROV->>WIN: Register Project Config on Simulation Node
+    WIN->>S3: Mount Project Bucket
+    WIN->>DB: Connect to Plant X Database
+    WIN->>VAULT: Request Database Access Secrets
+
+    PROV-->>API: Project Bootstrap Complete
+    API-->>UI: Project Ready

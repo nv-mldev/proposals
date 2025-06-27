@@ -1,0 +1,59 @@
+flowchart TD
+
+subgraph Infrastructure_Layer
+
+    subgraph Networking_and_Gateway
+        lb[Load Balancer]
+        ingress[Ingress Gateway]
+        mesh[Optional Service Mesh]
+        netpol[Network Policies]
+    end
+
+    subgraph Cluster_Orchestration
+        kube[Kubernetes on RHEL]
+        namespace[Per-Project Namespace Provisioner]
+        helm[GitOps]
+    end
+
+    subgraph Identity_and_Secrets
+        oidc[OIDC / SSO Integration]
+        vault[Secrets Manager]
+    end
+
+    subgraph Project_Resources
+        dbProv[Per-Project DB Provisioner: Oracle, SQL, Dabacon]
+        minio[MinIO Object Storage]
+        pvc[Legacy PVCs if Needed]
+    end
+
+    subgraph Observability_and_Monitoring
+        prom[health & performance monitoring]
+        loki[Logging]
+        trace[Tracing]
+        alerts[Per-Project Alert Rules]
+    end
+
+end
+
+%% Connections
+lb --> ingress
+ingress --> mesh
+mesh --> netpol
+
+kube --> namespace
+namespace --> dbProv
+namespace --> minio
+namespace --> prom
+namespace --> loki
+namespace --> vault
+
+oidc --> vault
+vault --> dbProv
+vault --> helm
+
+
+helm --> namespace
+helm --> pvc
+
+prom --> alerts
+mesh --> trace

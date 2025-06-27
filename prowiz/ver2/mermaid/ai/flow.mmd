@@ -1,0 +1,50 @@
+flowchart LR
+  subgraph AI_Agent_Layer_Flow["AI Agent Layer Flow"]
+    direction LR
+
+    %% Entry Point
+    ST([API Request]):::start
+    API[AI Agent API Interface]:::component
+
+    %% Agent Selection
+    DEC{Select Agent Type}:::decision
+    ST --> API --> DEC
+
+    %% Branch to Agents
+    DEC -->|Email Parsing| EA[Email Agent]:::component
+    DEC -->|Doc Extraction| DE[Doc Extraction Agent]:::component
+    DEC -->|Compliance Check| CA[Compliance Agent]:::component
+    DEC -->|Doc Generation| DG[Document Generation Agent]:::component
+    DEC -->|Semantic Diff| SD[Semantic Diff Agent]:::component
+    DEC -->|Diagram Parsing| DP[Diagram Parsing Agent]:::component
+    DEC -->|User Interaction| IA[Interaction Agent]:::component
+    DEC -->|Reporting| RA[Reporting Agent]:::component
+
+    %% Core LLM & Vector Interactions
+    EA --> CORE[Shared LLM Runtime]:::core
+    DE --> CORE
+    CA --> CORE
+    DG --> CORE
+    IA --> CORE
+    RA --> CORE
+
+    SD --> VDB[(Vector DB)]:::database
+    DP --> VDB
+    RA --> VDB
+
+    SD --> CORE
+    DP --> CORE
+
+    %% Response Path
+    CORE --> RESP([Agent Response]):::component
+    RESP --> API
+    API --> ST
+
+  end
+
+  %% Styling
+  classDef component fill:#fff3e0,stroke:#fb8c00,color:#000
+  classDef core      fill:#e3f2fd,stroke:#2196f3,color:#000
+  classDef database  fill:#d1c4e9,stroke:#5e35b1,stroke-dasharray:5 5,color:#000
+  classDef decision  fill:#fff9c4,stroke:#fbc02d,color:#000
+  classDef start     fill:#e0f7fa,stroke:#006064,color:#000

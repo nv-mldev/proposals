@@ -1,0 +1,46 @@
+flowchart LR
+  subgraph Infrastructure_Layer_Flow["Infrastructure Layer Flow"]
+    direction LR
+
+    %% Start & End
+    ST([Client Request]):::start
+    END([Response Sent]):::endNode
+
+    %% Network Ingress
+    DNS[External DNS Lookup]:::infra
+    LB[Load Balancer]:::infra
+    IC[Ingress Controller<br/>TLS Termination]:::infra
+    SM[Service Mesh<br/>mTLS & Routing]:::infra
+
+    %% Application Hosting
+    POD[Application Pod<br/>K8s]:::infra
+    VAU[Vault Secret Retrieval]:::infra
+    DB[(Database)]:::database
+    OBJ[(Object Store)]:::database
+
+    %% Response Path
+    RESP[Generate Response]:::infra
+
+    %% Observability
+    POD -.-> MET[Prometheus Metrics]:::obs
+    POD -.-> LOG[Loki Logs]:::obs
+    POD -.-> TR[Jaeger Traces]:::obs
+
+    %% Main Request Flow
+    ST --> DNS --> LB --> IC --> SM --> POD
+    POD --> VAU --> POD
+    POD --> DB
+    POD --> OBJ
+    POD --> RESP --> SM --> IC --> LB --> END
+
+    %% Observability Collection
+    MET --> END
+    LOG --> END
+    TR --> END
+  end
+
+  classDef infra      fill:#f5f5f5,stroke:#424242,color:#000
+  classDef database   fill:#d1c4e9,stroke:#5e35b1,stroke-dasharray:5 5,color:#000
+  classDef obs        fill:#b2ebf2,stroke:#0097a7,stroke-dasharray:5 5,color:#000
+  classDef start      fill:#e0f7fa,stroke:#006064,color:#000
+  classDef endNode    fill:#e0f7fa,stroke:#006064,color:#000

@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant ETL as ETL or Trigger Manager
+    participant AGENT as AI Agent Dispatcher
+    participant LLM as Shared LLM Runtime
+    participant VECTOR as Vector Store
+    participant ERP as ERP Task Engine
+    participant FILE as File Management
+
+    ETL->>AGENT: Trigger agent with file and task context
+    AGENT->>LLM: Run agent prompt scaffold
+    AGENT->>VECTOR: Fetch embeddings if needed
+    LLM-->>AGENT: Return output
+    AGENT->>ERP: Update task or post decision
+    AGENT->>FILE: Upload versioned doc, summary or annotated file

@@ -1,0 +1,30 @@
+flowchart LR
+  subgraph Observability_Layer["Observability Layer"]
+    direction LR
+
+    OTEL[OpenTelemetry Collector<br/>Metrics, Logs & Traces]:::obs
+    PROM[Prometheus Server<br/>Metrics Collection]:::obs
+    LOKI[Grafana Loki<br/>Log Aggregation]:::obs
+    JAEG[Jaeger<br/>Distributed Tracing]:::obs
+    GRAF[Grafana<br/>Dashboards & Visualization]:::obs
+    ALRM[Alertmanager<br/>Alert Dispatch]:::obs
+    PD[PagerDuty / Opsgenie<br/>Incident Notification]:::obs
+    SLK[ mattermost & Email<br/>Alerts & Reports]:::obs
+  end
+
+  %% Data flows
+  OTEL --> PROM
+  OTEL --> LOKI
+  OTEL --> JAEG
+ 
+
+  PROM --> GRAF
+  LOKI --> GRAF
+  JAEG --> GRAF
+  
+
+  PROM --> ALRM
+  ALRM --> PD
+  ALRM --> SLK
+
+  classDef obs fill:#b2ebf2,stroke:#0097a7,stroke-width:1px,color:#000

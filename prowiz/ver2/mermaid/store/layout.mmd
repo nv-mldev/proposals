@@ -1,0 +1,19 @@
+flowchart LR
+  subgraph Storage_Layer["Storage Layer"]
+    direction TB
+
+    OS[Object Store<br/>MinIO / S3]:::storage
+    RDB[(Relational DB<br/>PostgreSQL)]:::storage
+    DOCDB[(Document DB<br/>MongoDB)]:::storage
+    VDB[(Vector DB<br/>FAISS / Qdrant)]:::storage
+    BK[Backup & Archive<br/>Snapshots / Cold Storage]:::storage
+  end
+
+  %% Backup relationships
+  OS --> BK
+  RDB --> BK
+  DOCDB --> BK
+  VDB --> BK
+
+  classDef storage fill:#d1c4e9,stroke:#5e35b1,color:#000
+

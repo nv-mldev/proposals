@@ -1,0 +1,50 @@
+%%{init: {
+  "gantt": {
+    "barHeight": 10,
+    "barGap": 10,
+    "topPadding": 20,
+    "leftPadding": 75,
+    "gridLineStartPadding": 35,
+    "tickInterval": "4week",
+  }
+}}%%
+gantt
+    dateFormat  X
+    title Prowiz ERP – Project Timeline 
+    axisFormat  Week %U
+    excludes    weekends
+    todayMarker off
+    %% section Project Phases
+    %% Project Kickoff             :a1, 2023-10-01, 0d
+    %% Requirements Gathering      :a2, after a1, 4w
+    %% Design Phase                :a3, after a2, 4w
+
+    section Core Platform
+    ETL & Digitisation          :etl, 0, 12w
+    ETL Completion              :milestone, after etl, 0d
+    File Management             :file, after etl, 10w
+    File Management Completion  :milestone, after file, 0d
+    ERP Task Engine             :erp, after etl, 14w
+    ERP Completion              :milestone, after erp, 0d
+    Infra Layer                 :infra, 0, 14w
+    Infra Completion            :milestone, after infra, 0d
+    Observability Layer         :obs, after infra, 10w
+    Observability Completion    :milestone, after obs, 0d
+    Storage Layer               :storage, 0, 14w
+    Storage Completion          :milestone, after storage, 0d
+
+    section AI Agent Layer (Parallel)
+    Email Agent                 :email, 0, 10w
+    Doc Agent                   :doc, 0, 10w
+    Compliance Agent            :compliance, 0, 10w
+    Doc Generation Agent        :docgen, after doc, 14w
+    Interaction Agent           :task, after doc, 10w
+    Reporting Agent             :reporting, after doc, 10w
+    Diagram Agent               :diagram, after task, 18w
+
+    section UI & QA
+    UI Layer                    :ui, 0, 20w
+    Final Integration           :fi, after ui, 16w
+    QA                          :qa, after etl, 16w
+
+   

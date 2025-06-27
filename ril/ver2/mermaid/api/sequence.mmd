@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant UI as UI or Connector
+    participant INGRESS as Ingress Controller
+    participant GATEWAY as API Gateway
+    participant AUTH as Auth Validator
+    participant ERP as ERP API
+
+    UI->>INGRESS: HTTP Request - POST /task
+    INGRESS->>GATEWAY: Forward to API Gateway
+    GATEWAY->>AUTH: Validate token and access
+    AUTH-->>GATEWAY: Authorized
+    GATEWAY->>ERP: Forward to ERP API service
+    ERP-->>UI: Return task ID and status
+
+    Note over GATEWAY: Route matched using /task → ERP API
+

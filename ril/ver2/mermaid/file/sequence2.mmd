@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant WIN as ERP Connector - Windows Node
+    participant FILE as File Management Layer
+    participant AGENT as AI Agent Layer
+    participant ERP as ERP Task Engine
+    participant OBS as Observability Layer
+
+    WIN->>FILE: Upload new version of design or simulation file
+    FILE->>FILE: Detect hash change and new version
+    FILE->>FILE: Run revision detector
+
+    FILE->>AGENT: Trigger Semantic Diff Agent or Compliance Agent
+    AGENT->>ERP: Post output to related task (e.g., changes, warnings)
+    AGENT->>FILE: Store annotated file or AI-generated summary
+    AGENT->>OBS: Log result and duration
+
+    FILE->>ERP: If revision affects task, raise alert or set task to needs update

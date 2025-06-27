@@ -1,0 +1,63 @@
+flowchart LR
+  CD[Customer Spec Documents]:::entity
+
+  subgraph ETL ["ETL & Digitisation"]
+    FW[File Watcher & Extractors]:::etl
+    SD[(Digitised Spec DB)]:::data
+  end
+
+  CD --> FW --> SD
+
+  subgraph PROCESS ["Process Department"]
+    P1[Read Digitised Specs]:::process
+    P2[Run Simulation Task]:::process
+    P3[Extract Simulation Parameters]:::process
+    P4[Automated Calculations]:::process
+    P5[Produce PFD and HMBT]:::process
+    PC[Process Compliance Check]:::process
+    PR[Revision Loop]:::process
+  end
+
+  SD --> P1 --> P2 --> P3 --> P4 --> P5 --> PC
+  PC -- fail --> PR --> P2
+
+  subgraph PIPING ["Piping Department"]
+    PI1[Read Digitised Specs]:::piping
+    PI2[Generate Equipment Layout]:::piping
+    PI3[3D Modeling]:::piping
+    PI4[Stress Analysis]:::piping
+    PI5[Isometric Drawing]:::piping
+    PIC[Piping Compliance Check]:::piping
+    PIR[Revision Loop]:::piping
+  end
+
+  SD --> PI1 --> PI2 --> PI3 --> PI4 --> PI5 --> PIC
+  PIC -- fail --> PIR --> PI2
+
+  subgraph STRUCT ["Structural Department"]
+    S1[Read Digitised Specs]:::struct
+    S2[Weight & COG Report]:::struct
+    S3[Structural Analysis]:::struct
+    S4[3D Model Update]:::struct
+    S5[Fabrication Drawing]:::struct
+    SC[Structural Compliance Check]:::struct
+    SR[Revision Loop]:::struct
+  end
+
+  SD --> S1 --> S2 --> S3 --> S4 --> S5 --> SC
+  SC -- fail --> SR --> S2
+
+  %% Audit Logging
+  FW -.-> LOG[Audit & Logs]:::audit
+  P1 -.-> LOG; P2 -.-> LOG; P3 -.-> LOG; P4 -.-> LOG; P5 -.-> LOG; PC -.-> LOG; PR -.-> LOG
+  PI1 -.-> LOG; PI2 -.-> LOG; PI3 -.-> LOG; PI4 -.-> LOG; PI5 -.-> LOG; PIC -.-> LOG; PIR -.-> LOG
+  S1 -.-> LOG; S2 -.-> LOG; S3 -.-> LOG; S4 -.-> LOG; S5 -.-> LOG; SC -.-> LOG; SR -.-> LOG
+  LOG --> MDB[(Metadata DB)]:::data
+
+  classDef entity fill:#e8f5e9,stroke:#2e7d32,color:#000
+  classDef etl    fill:#c8e6c9,stroke:#388e3c,color:#000
+  classDef data   fill:#e3f2fd,stroke:#1976d2,color:#000
+  classDef process fill:#fde0dc,stroke:#d32f2f,color:#000
+  classDef piping  fill:#f3e5f5,stroke:#6a1b9a,color:#000
+  classDef struct  fill:#e0f7fa,stroke:#1e88e5,color:#000
+  classDef audit   fill:#fff9c4,stroke:#fbc02d,color:#000

@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant WIN as ERP Connector - Windows Node
+    participant FILE as File Management Layer
+    participant ERP as ERP Task Engine
+    participant OBS as Observability Layer
+
+    WIN->>FILE: Upload simulation file with task context
+    FILE->>FILE: Compute hash and check for version
+    FILE->>ERP: Link version to task
+    FILE->>OBS: Log file upload and version info
+
+    Note over FILE: If previous version exists
+    FILE->>FILE: Run revision detector
+    FILE->>ERP: Trigger revision alert for dependent tasks
+    FILE->>OBS: Log revision event

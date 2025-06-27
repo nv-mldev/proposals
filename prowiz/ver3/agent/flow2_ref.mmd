@@ -1,0 +1,75 @@
+flowchart LR
+  subgraph AI_Agent_Module["AI Agent Module"]
+    direction LR
+
+    %% External Interface
+    API[AI Agent API REST/GRPC]:::api
+
+    %% Core Orchestration
+    ORCH[Agent Orchestrator & Task Queue]:::orch
+
+    %% Individual Agents
+    COMPL[Compliance Agent]:::agent
+    DOCGEN[Document Generation Agent]:::agent
+    DIAGP[Diagram Parsing Agent]:::agent
+    ENQ[Enquiry Agent]:::agent
+    EMAIL[Email Agent]:::agent
+    ERPAGENT[ERP Action Agent]:::agent
+
+    %% LLM & Embedding Infrastructure
+    LLM[LLM Runtime GPT, Ollama, Claude]:::service
+    EMBED[Embedding Service]:::service
+    VDB[(Vector DB FAISS / Qdrant)]:::database
+    KB[(Knowledge Base Doc Store)]:::database
+
+    %% Messaging & Observability
+    MQ[(Message Queue Kafka / RabbitMQ)]:::infra
+    LOG[Logging & Metrics Prometheus / Loki]:::obs
+  end
+
+  %% API → Orchestrator
+  API --> ORCH
+
+  %% Orchestrator → Agents
+  ORCH --> COMPL
+  ORCH --> DOCGEN
+  ORCH --> DIAGP
+  ORCH --> ENQ
+  ORCH --> EMAIL
+  ORCH --> ERPAGENT
+
+  %% Agents → LLM & Embeddings
+  COMPL --> LLM
+  DOCGEN --> LLM
+  DIAGP --> LLM
+  ENQ --> EMBED --> VDB
+  ENQ --> LLM
+  EMAIL --> LLM
+  EMAIL --> KB
+  ERPAGENT --> LLM
+  ERPAGENT --> KB
+
+  %% Agents → Knowledge Base
+  COMPL --> KB
+  DOCGEN --> KB
+  DIAGP --> KB
+
+  %% Orchestration & Resilience
+  ORCH --> MQ --> ORCH
+
+  %% Observability
+  ORCH -.-> LOG
+  COMPL -.-> LOG
+  DOCGEN -.-> LOG
+  DIAGP -.-> LOG
+  ENQ -.-> LOG
+  EMAIL -.-> LOG
+  ERPAGENT -.-> LOG
+
+  classDef api       fill:#e3f2fd,stroke:#2196f3,color:#000
+  classDef orch      fill:#fff3e0,stroke:#fb8c00,color:#000
+  classDef agent     fill:#fde0dc,stroke:#d32f2f,color:#000
+  classDef service   fill:#c8e6c9,stroke:#388e3c,color:#000
+  classDef database  fill:#d1c4e9,stroke:#5e35b1,stroke-dasharray:5 5,color:#000
+  classDef infra     fill:#f5f5f5,stroke:#424242,color:#000
+  classDef obs       fill:#fff9c4,stroke:#fbc02d,color:#000
