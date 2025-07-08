@@ -1,0 +1,47 @@
+# LaTeX intermediate and output files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+
+# Editors and OS files
+*~
+*.swp
+*.bak
+.DS_Store
+Thumbs.db
+
+# PDF and other output
+*.pdf
+*.dvi
+*.ps
+*.xdv
+
+# Latexmk and arara
+latexmkrc
+*.lmk
+*.run.xml
+
+# Subfolders for builds
+_build/
+output/

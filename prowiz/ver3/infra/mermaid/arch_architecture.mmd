@@ -1,0 +1,53 @@
+architecture-beta
+    group edge(cloud)[Edge Layer]
+    group control(server)[Control Plane]
+    group workers(server)[Worker Nodes]
+    group storage(database)[Storage Layer]
+    group observability(disk)[Observability]
+
+    service dns(internet)[DNS] in edge
+    service lb(server)[Load Balancer] in edge
+    service ingress(server)[Ingress Controller] in edge
+    service mesh(server)[Service Mesh] in edge
+
+    service cp1(server)[CP Node 1 8c 32G] in control
+    service cp2(server)[CP Node 2 8c 32G] in control
+    service cp3(server)[CP Node 3 8c 32G] in control
+
+    service gw1(server)[General Node 1 16c 64G] in workers
+    service gw2(server)[General Node 2 16c 64G] in workers
+    service gw3(server)[General Node 3 16c 64G] in workers
+    service ai1(server)[AI Node 1 8c 64G GPU] in workers
+    service ai2(server)[AI Node 2 8c 64G GPU] in workers
+
+    service st1(database)[Storage Node 1 RAID10 4 4TB] in storage
+    service st2(database)[Storage Node 2 RAID10 4 4TB] in storage
+    service st3(database)[Storage Node 3 RAID10 4 4TB] in storage
+
+    service prom(disk)[Prometheus] in observability
+    service graf(disk)[Grafana] in observability
+    service loki(disk)[Loki] in observability
+    service jaeger(disk)[Jaeger] in observability
+
+    dns:R -- L:lb
+    lb:R -- L:ingress
+    ingress:R -- L:mesh
+    
+    mesh:B -- T:cp1
+    mesh:B -- T:cp2
+    mesh:B -- T:cp3
+    
+    cp1:B -- T:gw1
+    cp2:B -- T:gw2
+    cp3:B -- T:gw3
+    cp1:B -- T:ai1
+    cp2:B -- T:ai2
+    
+    gw1:B -- T:st1
+    gw2:B -- T:st2
+    gw3:B -- T:st3
+    
+    gw1:R -- L:prom
+    gw2:R -- L:loki
+    gw3:R -- L:jaeger
+    prom:R -- L:graf

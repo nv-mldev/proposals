@@ -1,0 +1,37 @@
+flowchart LR
+  subgraph External_System
+    EMAIL_IN[Incoming Email from Vendor]
+  end
+
+  subgraph ERP_Ingestion_Layer
+    EMAIL_SVC[Email Fetcher - Graph API / IMAP]
+  end
+
+  subgraph AI_Layer
+    EMAIL_AGENT[Email Agent]
+    PARSER[NLP Parser - DocAI / Entity Extractor]
+    CLASSIFIER[Intent Classifier - RFP, Invoice, Query]
+    RAG[RAG Engine - Embeddings + Vector DB]
+    OUTPUT[Structured Output - Sender, Type, Metadata]
+  end
+
+  subgraph ERP_Task_Engine
+    ROUTER[Route to ERP Module - Invoice, Task, Alert]
+    UI[ERP UI / Workflow]
+  end
+
+  %% Flow
+  EMAIL_IN --> EMAIL_SVC
+  EMAIL_SVC --> EMAIL_AGENT
+  EMAIL_AGENT --> PARSER --> CLASSIFIER --> RAG --> OUTPUT --> ROUTER --> UI
+
+  %% Styles
+  classDef ext fill:#e0f7fa,stroke:#00acc1,color:#000
+  classDef ingest fill:#f1f8e9,stroke:#7cb342,color:#000
+  classDef ai fill:#fff3e0,stroke:#fb8c00,color:#000
+  classDef erp fill:#ede7f6,stroke:#5e35b1,color:#000
+
+  class EMAIL_IN ext
+  class EMAIL_SVC ingest
+  class EMAIL_AGENT,PARSER,CLASSIFIER,RAG,OUTPUT ai
+  class ROUTER,UI erp

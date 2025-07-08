@@ -1,0 +1,34 @@
+Task,Start Date,End Date,Duration (days)
+Infra Design & Node Setup,2025-07-15,2025-08-14,30
+Observability Stack,2025-08-14,2025-08-29,15
+"Ingress, Storage, MQ Setup",2025-08-29,2025-09-13,15
+CI/CD Pipelines,2025-08-29,2025-09-18,20
+Project Context Loader,2025-08-29,2025-09-13,15
+Orchestrator + Queue Layer,2025-09-13,2025-10-03,20
+Embedding + Vector DB Setup,2025-10-03,2025-10-18,15
+API Integration Layer,2025-10-03,2025-10-18,15
+OSS PDF Parser Research,2025-08-15,2025-09-04,20
+Text & Table Extraction,2025-09-04,2025-10-04,30
+Table Reconstruction,2025-10-04,2025-11-03,30
+PDF Parsing QA,2025-11-03,2025-11-23,20
+Diagram VLM Research,2025-08-15,2025-09-14,30
+Diagram Preprocessor,2025-09-14,2025-10-14,30
+Model Fine-tuning,2025-10-14,2025-11-28,45
+DSL Conversion Logic,2025-11-28,2025-12-28,30
+Diagram Regression Testing,2025-12-28,2026-01-12,15
+Compliance Spec Definition,2025-08-15,2025-09-04,20
+Equation + DSL Evaluator,2025-09-04,2025-10-04,30
+Multi-standard Rule Loader,2025-10-04,2025-11-03,30
+Compliance QA,2025-11-03,2025-11-23,20
+Prompt & Template Design,2025-09-15,2025-10-05,20
+Doc Generator Implementation,2025-10-05,2025-11-04,30
+LLM Fine-tuning Loop,2025-11-04,2025-12-04,30
+Deploy OSS LLM,2025-08-20,2025-09-04,15
+Embedding Optimization,2025-12-04,2025-12-24,20
+Email Agent Dev,2025-09-01,2025-09-21,20
+ERP Hook Agent,2025-09-21,2025-10-11,20
+Logging Agent Hooks,2025-10-11,2025-10-26,15
+Full Agent Integration,2026-03-15,2026-04-14,30
+Compliance + Diagram QA,2026-04-14,2026-05-14,30
+Stability & Perf Testing,2026-05-14,2026-06-13,30
+Buffer + Customer Adaptation,2026-06-13,2026-07-13,30

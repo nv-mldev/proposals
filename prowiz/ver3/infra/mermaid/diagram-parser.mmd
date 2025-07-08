@@ -1,0 +1,36 @@
+flowchart LR
+  subgraph Diagram_Parsing_Agent
+    direction LR
+
+    PID[Raw P&ID File]:::input
+    PRE[Image Preprocessor]:::proc
+    SD[Symbol Detector - Computer Vision]:::proc
+    OD[Text OCR - Tesseract / EasyOCR]:::proc
+    SM[Spatial Mapper - Shapely]:::proc
+    GB[Graph Builder - NetworkX]:::proc
+
+    EL[Equipment List Extractor]:::output
+    LL[Line List Extractor]:::output
+    CA[Connectivity Analyzer]:::output
+
+    API[Agent API Endpoint]:::api
+  end
+
+  PID --> PRE
+  PRE --> SD
+  PRE --> OD
+  SD --> SM
+  OD --> SM
+  SM --> GB
+  GB --> EL
+  GB --> LL
+  GB --> CA
+
+  EL --> API
+  LL --> API
+  CA --> API
+
+  classDef input    fill:#e3f2fd,stroke:#2196f3,color:#000
+  classDef proc     fill:#c8e6c9,stroke:#388e3c,color:#000
+  classDef output   fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef api      fill:#fff3e0,stroke:#fb8c00,color:#000

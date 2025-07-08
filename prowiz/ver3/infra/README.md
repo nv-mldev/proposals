@@ -176,64 +176,64 @@ flowchart TB
 
 ```
 
-## AI server Pricing
+## AI Server Pricing - Estimated (For 1000 users )
 
-| Component                        | Qty | Unit Cost (₹) | Total (₹)     | Notes                                 |
+| Component                        | Qty | Unit Cost (INR) | Total (INR)     | Notes                                 |
 | -------------------------------- | --- | ------------- | ------------- | ------------------------------------- |
-| Intel Xeon Gold 6348 CPU         | 2   | 382 500       | 765 000       | Wikipedia RCP ₹3 072 × ₹83/USD        |
-| 32 GB DDR4 ECC RDIMM             | 16  | 30 000        | 480 000       | Approx. ₹20 K per 32 GB server module |
-| NVIDIA Tesla T4 16 GB GPU        | 4   | 217 004       | 868 014       | ServerBasket list price               |
-| 1 TB NVMe SSD (enterprise)       | 4   | 18 000        | 72 000        | Enterprise NVMe \~₹12 K/TB            |
-| 8 TB HDD (enterprise, RAID-10)   | 12  | 30 000        | 360 000       | Enterprise 8 TB \~₹20 K each          |
-| Dual-port 25 GbE NIC             | 2   | 37 500        | 75 000        | SFP28 cards                           |
-| Dual-port 10 GbE NIC             | 2   | 18 000        | 36 000        | SFP+ cards                            |
-| Chassis, PSUs, Board, Fans, etc. | —   | 150 000       | 150 000       | Supermicro or similar                 |
-| **Scaled Total**                 |     |               | **2 806 014** | ≈ ₹28.1 lakhs (\~₹2.8 M)              |
+| Intel Xeon Gold 6348 CPU         | 2   | 478,125       | 956,250       | Wikipedia RCP INR 3,072 × INR 83/USD        |
+| 32 GB DDR4 ECC RDIMM             | 16  | 37,500        | 600,000       | Approx. INR 20K per 32 GB server module |
+| NVIDIA Tesla T4 16 GB GPU        | 4   | 271,255       | 1,085,020     | ServerBasket list price               |
+| 1 TB NVMe SSD (enterprise)       | 4   | 22,500        | 90,000        | Enterprise NVMe \~INR 12K/TB            |
+| 8 TB HDD (enterprise, RAID-10)   | 12  | 37,500        | 450,000       | Enterprise 8 TB \~INR 20K each          |
+| Dual-port 25 GbE NIC             | 2   | 46,875        | 93,750        | SFP28 cards                           |
+| Dual-port 10 GbE NIC             | 2   | 22,500        | 45,000        | SFP+ cards                            |
+| Chassis, PSUs, Board, Fans, etc. | —   | 187,500       | 187,500       | Supermicro or similar                 |
+| **Scaled Total**                 |     |               | **3,507,520** | ~INR 35.1 lakhs (~INR 3.5M)              |
 
 ## Gannt Chart
 
 ```mermaid
- gantt
-  title AI Agent ERP System — 14-Month Development Plan(start: July 15, 2025)
+gantt
+  title AI Agent ERP System — 15-Month Development Plan(start: July 15, 2025)
   dateFormat  YYYY-MM-DD
 
   %% Phase 1: Infrastructure & Planning
   section Infra & CI/CD
-  Infra Design & Node Setup             :a1, 2025-07-15,30d
-  Observability Stack (Prom/Loki/Graf) :a2, after a1, 15d
-  Ingress, Storage, Message Queue Setup:a3, after a2, 15d
+  Infra Design & Node Setup             :a1, 2025-07-15,60d
+  Observability Stack (Prom/Loki/Graf) :a2, after a1, 25d
+  Ingress, Storage, Message Queue Setup:a3, after a2, 25d
   CI/CD Pipelines, Monitoring Hooks    :a4, after a3, 20d
 
   %% Phase 2: Core Framework
   section Agent Framework & Orchestrator
-  Project Context Loader (CM)          :b1, 2025-08-29,15d
-  Orchestrator + Queue Layer           :b2, after b1, 20d
-  Embedding + Vector DB Setup          :b3, after b2, 15d
-  API Integration Layer                :b4, after b3, 15d
+  Project Context Loader (CM)          :b1, 2025-08-29,25d
+  Orchestrator + Queue Layer           :b2, after b1, 30d
+  Embedding + Vector DB Setup          :b3, after b2, 25d
+  API Integration Layer                :b4, after b3, 25d
 
   %% Phase 3: Agent Development
   section PDF Parsing Agent
-  OSS Parser Research + Benchmarking   :c1, 2025-08-15, 20d
-  Text & Table Extraction Pipeline     :c2, after c1, 30d
-  Table Structure Reconstruction       :c3, after c2, 30d
-  PDF Parsing Refinement + QA          :c4, after c3, 20d
+  OSS Parser Research + Benchmarking   :c1, 2025-08-15, 30d
+  Text & Table Extraction Pipeline     :c2, after c1, 40d
+  Table Structure Reconstruction       :c3, after c2, 40d
+  PDF Parsing Refinement + QA          :c4, after c3, 40d
 
   section Diagram Parsing Agent
-  VLM Research + Dataset Prep          :d1, 2025-08-15, 30d
+  VLM Research + Dataset Prep          :d1, 2025-08-15,90d
   Basic Diagram Preprocessor           :d2, after d1, 30d
   Model Fine-tuning + Integration      :d3, after d2, 45d
   Diagram → DSL Conversion Logic       :d4, after d3, 30d
   Regression Testing                   :d5, after d4, 15d
 
   section Compliance Agent
-  Rule Format & Spec Definition        :e1, 2025-08-15, 20d
-  Equation Engine + DSL Evaluator      :e2, after e1, 30d
-  Multi-standard Rule Loader           :e3, after e2, 30d
-  Compliance Agent QA & Test Coverage  :e4, after e3, 20d
+  Rule Format & Spec Definition        :e1, after c4, 30d
+  Equation Engine + DSL Evaluator      :e2, after e1, 60d
+  Multi-standard Rule Loader           :e3, after e2, 40d
+  Compliance Agent QA & Test Coverage  :e4, after e3, 30d
 
   section Document Generation Agent
-  Prompt & Template Design             :f1, 2025-09-15, 20d
-  Doc Generator Implementation         :f2, after f1, 30d
+  Prompt & Template Design             :f1, 2025-09-15, 30d
+  Doc Generator Implementation         :f2, after f1, 40d
   Fine-tuning / Feedback Loop          :f3, after f2, 30d
 
   section LLM Runtime Setup

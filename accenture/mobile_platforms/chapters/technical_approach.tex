@@ -1,0 +1,52 @@
+\chapter{Technical Approach by Platform}
+\label{chap:tech_approach}
+
+Our technical approach is tailored to the unique challenges presented by each mobile platform. We will address each platform based on client priority, starting with the immediate need for high-precision robotic arm manipulation.
+
+\section{Priority 1: Robotic Arms (Eye-in-Hand)}
+\textit{Complexity Level: High. Primary Goal: High-Precision Manipulation.}
+
+\subsection{Seek and Track}
+The system must track objects from a rapidly moving camera on the end-effector. This requires high-frame-rate processing and predictive algorithms (e.g., Kalman filters) to account for motion blur and latency.
+
+\subsection{Pixel-to-World Mapping}
+This is the most critical challenge for this platform, requiring a non-trivial \textbf{Hand-Eye Calibration} to solve the AX=XB problem. The goal is to achieve sub-millimeter accuracy in transforming object pixels into the robot's base coordinate frame.
+
+\subsection{Closed-Loop Actions}
+The system provides precise 3D coordinates directly to the robot controller's motion planner to execute high-dexterity tasks like picking parts from a bin, precise assembly, or tool placement.
+
+\section{Platform 2: Powered Industrial Vehicles (PIVs)}
+\textit{Complexity Level: Low. Primary Goal: Operator Assistance.}
+
+\subsection{Seek and Track}
+The system will identify and highlight the correct pallet, rack location, or object of interest from a live camera feed on a cabin-mounted display, helping the operator make faster and more accurate decisions.
+
+\subsection{Pixel-to-World Mapping}
+Mapping provides contextual awareness. Using a 3D camera (Stereo or ToF), the system will estimate the distance and general position of the target object relative to the PIV's forks, providing crucial guidance for alignment.
+
+\subsection{Closed-Loop Actions}
+The "loop" is closed by the human operator. The software's output consists of visual overlays (e.g., a green box on the correct pallet) and auditory alerts (e.g., a warning if too close to an obstacle).
+
+\section{Platform 3: Automated Guided Vehicles (AGVs)}
+\textit{Complexity Level: Medium-Low. Primary Goal: Path Following \& Docking.}
+
+\subsection{Seek and Track}
+The system will be designed for the robust tracking of simple, high-contrast features like magnetic tape, painted lines on the floor, or fiducial markers (e.g., AprilTags) at docking stations.
+
+\subsection{Pixel-to-World Mapping}
+Mapping is simplified to calculating the AGV's lateral and angular offset from the tracked path. The output is an error signal (e.g., "I am 5cm to the right of the line") rather than a full 3D coordinate.
+
+\subsection{Closed-Loop Actions}
+The error signal from the mapping module is fed into a PID control loop that governs the AGV's steering and drive motors to autonomously correct its course and perform precise docking maneuvers.
+
+\section{Platform 4: Autonomous Mobile Robots (AMRs)}
+\textit{Complexity Level: Very High. Primary Goal: Autonomous Navigation \& Interaction.}
+
+\subsection{Seek and Track}
+This involves active searching. The "seek" function will guide the AMR's navigation system towards a target's last known location or through a search pattern. The "track" function keeps the object targeted for interaction or following.
+
+\subsection{Pixel-to-World Mapping}
+The system must transform pixel detections into a global coordinate frame provided by the AMR's SLAM (Simultaneous Localization and Mapping) system. This means fusing visual data with the robot's continuously updated world map.
+
+\subsection{Closed-Loop Actions}
+Actions are complex and intelligent. The vision system's output is used for dynamic path planning, obstacle avoidance (for objects not in the SLAM map, like people), person following, and identifying target locations for the AMR to navigate to.

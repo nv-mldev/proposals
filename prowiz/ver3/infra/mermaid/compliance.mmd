@@ -1,0 +1,56 @@
+flowchart LR
+  subgraph External_System[External System]
+    INPUT_DOC["📄 Input Document (PFD, Spec Sheet, PO, Drawing)"]
+  end
+
+  subgraph ERP_Ingestion_Layer[Ingestion / Preprocessing]
+    DOC_EXTRACTOR["📥 Document Extractor (PDF Parser / OCR)"]
+    STRUCTURER["🧾 Data Structurer (Key-Value Mapping)"]
+  end
+  
+
+  subgraph Data_Quality["📊 ERP Rule Engine"]
+        DATA_CLEANING["🧹 Data Cleaning (Format, Completeness)"]
+        DATA_VALIDATION["✅ Range Checks, Schema Validation"]
+
+  end
+
+  subgraph AI_Layer["🧠 AI Layer"]
+    COMPL_AGENT["🧠 Compliance Agent"]
+    subgraph KB_Compliance["🔍 Knowledge-Based Compliance"]
+      KB_RAG["📚 Retrieval + Semantic Similarity (RAG + Embeddings)"]
+      LLM_REASON["🧠 LLM Reasoning (Clause Match / Gap Detection)"]
+    end
+    subgraph Rule_Engine["🔧 Rule Engine"]
+    RULE_CHECK["✅ Rule Check (Clause Match / Gap Detection)"]
+    CODE_LOOKUP["📖 Code Lookup (Regulatory Codes, Standards)"]
+  end
+
+    STRUCTURED_OUTPUT["✅ Final Compliance Report {Pass/Fail, Gaps, Suggestions}"]
+  end
+
+  subgraph ERP_Task_Engine[ERP Task Engine]
+    ROUTE_NEXT["📨 Route to Next Dept / Reviewer (Notification / Dashboard)"]
+  end
+
+  %% Flow
+  INPUT_DOC --> DOC_EXTRACTOR --> STRUCTURER --> DATA_CLEANING --> DATA_VALIDATION --> COMPL_AGENT
+  COMPL_AGENT --> RULE_CHECK --> CODE_LOOKUP
+  COMPL_AGENT --> KB_RAG --> LLM_REASON
+  RULE_CHECK --> STRUCTURED_OUTPUT
+  LLM_REASON --> STRUCTURED_OUTPUT
+  STRUCTURED_OUTPUT --> ROUTE_NEXT
+
+  %% Styles
+  classDef ext fill:#e0f7fa,stroke:#00acc1,color:#000
+  classDef ingest fill:#f1f8e9,stroke:#7cb342,color:#000
+  classDef ai fill:#fff3e0,stroke:#fb8c00,color:#000
+  classDef rule fill:#f3e5f5,stroke:#8e24aa,color:#000
+  classDef db fill:#ede7f6,stroke:#5e35b1,color:#000
+  classDef llm fill:#c8e6c9,stroke:#2e7d32,color:#000
+
+  class INPUT_DOC ext
+  class DOC_EXTRACTOR,STRUCTURER ingest
+  class COMPL_AGENT,KB_RAG,LLM_REASON,STRUCTURED_OUTPUT ai
+  class RULE_CHECK,CODE_LOOKUP rule
+  class ROUTE_NEXT db

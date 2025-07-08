@@ -1,0 +1,89 @@
+\documentclass{report} % 'report' class is ideal for chapters
+
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{graphicx} % To include logos
+\graphicspath{{images/}} % Set the path for all images
+\usepackage{fancyhdr} % For custom headers and footers
+\usepackage{watermark} % For watermark
+\usepackage{xcolor} % For colors
+\usepackage[toc,page]{appendix}
+\usepackage[nottoc]{tocbibind} % Adds ToC, LoF, LoT to the ToC
+\usepackage{hyperref} % For clickable links in the PDF
+
+% Configure watermark
+\usepackage{draftwatermark}
+\SetWatermarkText{CONFIDENTIAL}
+\SetWatermarkScale{0.8}
+\SetWatermarkColor{red!30}
+
+% Adjust header height for logo
+\setlength{\headheight}{26.36232pt}
+\addtolength{\topmargin}{-14.36232pt}
+
+% Configure fancy header/footer
+\pagestyle{fancy}
+\fancyhf{} % Clear all header/footer fields
+\fancyhead[L]{\includegraphics[height=0.8cm]{logo.png}} % Logo on left
+\fancyhead[R]{\textbf{CONFIDENTIAL}} % Confidential on right
+\fancyfoot[C]{\thepage} % Page number in center
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\title{
+    \vspace{2cm} % Add space from top
+    \textbf{\Huge Advanced Visual Intelligence for Mobile Robotic Platforms} \\
+    \vspace{1.5cm} % Space between title and logo
+    \includegraphics[width=0.4\textwidth]{logo.png} \\ % Your logo from images folder
+    \vspace{1.5cm} % Space between logo and subtitle
+    \Large A Technical Proposal \\
+    \vspace{2cm} % Space
+    \normalsize Prepared by \\
+    \large \textbf{DAI (Dhvani Analytic Intelligence) Software Team}
+}
+\author{} % Author is part of the title block now
+\date{\today}
+
+
+\begin{document}
+
+% --- Title Page ---
+\begin{titlepage}
+    \thispagestyle{empty} % No header/footer on title page
+    \maketitle
+\end{titlepage}
+
+
+% --- Version History ---
+\chapter*{Version History}
+\addcontentsline{toc}{chapter}{Version History} % Add this page to the ToC
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|p{8cm}|l|}
+        \hline
+        \textbf{Version} & \textbf{Date} & \textbf{Changes} & \textbf{Author} \\
+        \hline
+        1.0 & \today & Initial Draft based on new structure & Project Lead \\
+        \hline
+        & & & \\
+        \hline
+        & & & \\
+
+        \hline
+    \end{tabular}
+\end{table}
+
+\newpage
+
+
+% --- Table of Contents ---
+\tableofcontents
+\newpage
+
+
+% --- Include Chapters from Separate Files ---
+\include{chapters/introduction}
+\include{chapters/technical_approach}
+\include{chapters/methodology}
+
+
+\end{document}

@@ -1,0 +1,15 @@
+flowchart LR
+  subgraph AI_Layer["🧠 AI Layer"]
+    FETCH_DATA[📡 Fetch Structured Data from ERP API]
+    GEN_TEXT[🧠 LLM-based Content Generator]
+    OUTPUT_JSON[📦 Output: Structured JSON Text]
+  end
+
+  subgraph ERP_Layer["📊 ERP System"]
+    FORMATTER[🧾 Python Formatter]
+    TEMPLATE[📁 Predefined Templates]
+    DOC_OUT[📄 Final PDF / DOCX Export]
+  end
+
+  FETCH_DATA --> GEN_TEXT --> OUTPUT_JSON --> FORMATTER --> DOC_OUT
+  FORMATTER --> TEMPLATE

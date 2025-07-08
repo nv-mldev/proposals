@@ -1,0 +1,52 @@
+\chapter{Methodology and Phased Rollout}
+\label{chap:methodology}
+
+Our development methodology is designed to maximize efficiency and minimize risk by separating software development from hardware dependency and tackling challenges based on client priorities.
+
+\section{Simulation-First Development}
+The entire DAI software framework will first be developed and validated in a simulated environment. This is a critical step that allows for parallel development while the Accenture team procures and sets up the physical hardware.
+
+\subsection{Simulation Environment}
+We will utilize industry-standard robotics simulators like \textbf{Gazebo} or \textbf{NVIDIA Isaac Sim}, integrated with the \textbf{Robot Operating System (ROS)}.
+
+\subsection{Benefits}
+\begin{itemize}
+    \item \textbf{Safety:} All control algorithms and closed-loop actions can be tested in a sandbox, preventing damage to expensive hardware.
+    \item \textbf{Speed:} Rapid iteration on algorithms is possible without the overhead of physical setup and reset procedures.
+    \item \textbf{Decoupled Timeline:} DAI's software development proceeds independently, ensuring project milestones are met even with hardware delays.
+\end{itemize}
+
+\section{Phased Rollout by Client Priority}
+Once the framework is validated in simulation, we will deploy it onto the physical hardware in phases, beginning with the client's top priority: the robotic arm.
+
+\subsection{Phase 1: Robotic Arm — High-Precision Manipulation (Months 1-4)}
+This phase tackles the most immediate and complex challenge to deliver value early.
+\begin{itemize}
+    \item \textbf{Months 1-2:} Develop and perfect the Hand-Eye Calibration procedure in simulation, then validate on the lab's physical robot.
+    \item \textbf{Months 3-4:} Implement and test high-accuracy pick-and-place routines. Refine tracking algorithms for moving objects on the physical system.
+    \item \textbf{Goal:} Deliver a functional and robust high-precision manipulation solution for the robotic arm.
+\end{itemize}
+
+\subsection{Phase 2: PIVs \& AGVs — Foundational Mobile Platforms (Months 5-7)}
+This phase adapts the core vision framework to constrained mobile platforms.
+\begin{itemize}
+    \item Develop and test operator-assist features for the PIV.
+    \item Implement and refine line/marker-following control loops for the AGV.
+    \item \textbf{Goal:} Prove the framework's adaptability to different mobility and interaction models.
+\end{itemize}
+
+\subsection{Phase 3: AMRs — Full Autonomy (Months 8-10)}
+This phase addresses the most complex platform involving dynamic navigation.
+\begin{itemize}
+    \item Integrate the vision framework with the AMR's SLAM and navigation stack.
+    \item Develop and test intelligent "seek" behaviors and dynamic obstacle avoidance.
+    \item \textbf{Goal:} Achieve robust performance in an unconstrained, real-world environment.
+\end{itemize}
+
+\subsection{Phase 4: System Integration \& Final Demonstration (Months 11-12)}
+The final phase focuses on combined operations and project delivery.
+\begin{itemize}
+    \item If required, test scenarios involving multiple platforms (e.g., an AMR delivering a part to a robotic arm).
+    \item Finalize documentation, performance benchmarking, and prepare the final software framework for handover.
+    \item \textbf{Goal:} Deliver a complete, validated, and documented software solution.
+\end{itemize}

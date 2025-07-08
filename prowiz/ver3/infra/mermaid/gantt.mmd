@@ -1,0 +1,62 @@
+
+gantt
+  title AI Agent ERP System — 15-Month Development Plan(start: July 15, 2025)
+  dateFormat  YYYY-MM-DD
+
+  %% Phase 1: Infrastructure & Planning
+  section Infra & CI/CD
+  Infra Design & Node Setup             :a1, 2025-07-15,60d
+  Observability Stack (Prom/Loki/Graf) :a2, after a1, 25d
+  Ingress, Storage, Message Queue Setup:a3, after a2, 25d
+  CI/CD Pipelines, Monitoring Hooks    :a4, after a3, 20d
+
+  %% Phase 2: Core Framework
+  section Agent Framework & Orchestrator
+  Project Context Loader (CM)          :b1, 2025-08-29,25d
+  Orchestrator + Queue Layer           :b2, after b1, 30d
+  Embedding + Vector DB Setup          :b3, after b2, 25d
+  API Integration Layer                :b4, after b3, 25d
+
+  %% Phase 3: Agent Development
+  section PDF Parsing Agent
+  OSS Parser Research + Benchmarking   :c1, 2025-08-15, 30d
+  Text & Table Extraction Pipeline     :c2, after c1, 40d
+  Table Structure Reconstruction       :c3, after c2, 40d
+  PDF Parsing Refinement + QA          :c4, after c3, 40d
+
+  section Diagram Parsing Agent
+  VLM Research + Dataset Prep          :d1, 2025-08-15,90d
+  Basic Diagram Preprocessor           :d2, after d1, 30d
+  Model Fine-tuning + Integration      :d3, after d2, 45d
+  Diagram → DSL Conversion Logic       :d4, after d3, 30d
+  Regression Testing                   :d5, after d4, 15d
+
+  section Compliance Agent
+  Rule Format & Spec Definition        :e1, after c4, 30d
+  Equation Engine + DSL Evaluator      :e2, after e1, 60d
+  Multi-standard Rule Loader           :e3, after e2, 40d
+  Compliance Agent QA & Test Coverage  :e4, after e3, 30d
+
+  section Document Generation Agent
+  Prompt & Template Design             :f1, 2025-09-15, 30d
+  Doc Generator Implementation         :f2, after f1, 40d
+  Fine-tuning / Feedback Loop          :f3, after f2, 30d
+
+  section LLM Runtime Setup
+  Select & Deploy OSS LLM (e.g. Mistral):g1, 2025-08-20, 15d
+  Fine-tuning / Evaluation Loop        :g2, after g1, 30d
+  Embedding Optimization + Caching     :g3, after g2, 20d
+
+  section Email / ERP / Logging Agents
+  Email Agent Dev                      :h1, 2025-09-01, 20d
+  ERP Hook Agent Dev                   :h2, after h1, 20d
+  Logging / Observability Agent Hooks  :h3, after h2, 15d
+
+  %% Final Integration
+  section Integration, QA, Stabilization
+  Full Agent Integration               :i1, 2026-03-15, 30d
+  Compliance + Diagram Edge Testing    :i2, after i1, 30d
+  Stability + Perf Testing             :i3, after i2, 30d
+  Buffer + Customer Adaptations        :i4, after i3, 30d
+
+

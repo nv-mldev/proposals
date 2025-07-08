@@ -1,0 +1,33 @@
+flowchart LR
+  subgraph External[User Engineer]
+    USER[User Query What is the valve size for Pump-101]
+  end
+
+  subgraph AI_Layer[AI Layer]
+    NLP[Natural Language Parser LLM Intent and Entity Extraction]
+    SEMANTIC[Semantic Understanding equipment Pump-101 field valve_size]
+    ROUTER[ERP API Router Select proper endpoint tool]
+    API_CALL[Call ERP API via REST or GraphQL]
+    RESP[Format and Respond Valve size 3 inches]
+  end
+
+  subgraph ERP_System[ERP System]
+    ERP_API[API Tool Layer SAP AVEVA Oracle SQL etc.]
+    AUTH[Auth and Role Access Control]
+    DB[Structured ERP Databases]
+  end
+
+  %% Flow
+  USER --> NLP --> SEMANTIC --> ROUTER --> API_CALL --> RESP --> USER
+  API_CALL --> ERP_API --> DB
+  ERP_API --> AUTH
+
+  %% Styling
+  classDef ai fill:#fff3e0,stroke:#fb8c00,color:#000
+  classDef ext fill:#e0f7fa,stroke:#00acc1,color:#000
+  classDef erp fill:#ede7f6,stroke:#5e35b1,color:#000
+
+  class USER ext
+  class NLP,SEMANTIC,ROUTER,API_CALL,RESP ai
+  class ERP_API,AUTH,DB erp
+
